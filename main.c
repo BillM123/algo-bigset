@@ -67,4 +67,4 @@ int main() {
     printf("The sp length from 1 to 6927 is: %d\n",spLength);
 
     return 0;
-} 
+} //

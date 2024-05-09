@@ -19,4 +19,4 @@ void insert(struct Queue *queue, int data);
 
 int delete(struct Queue *queue);
 
-#endif
+#endif//
