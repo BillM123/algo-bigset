@@ -6,7 +6,7 @@ struct node* createNode(int v);
 
 struct Graph* createAGraph(int vertices);
 
-void addEdge(struct Graph* graph, int s, int d);
+struct node* addEdge(struct Graph* graph, int s, int d);
 
 void printGraph(struct Graph* graph);
 
