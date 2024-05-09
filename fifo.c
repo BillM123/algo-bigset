@@ -78,4 +78,4 @@ void* delete(struct Queue *queue){
     free(curr);
     prev->next = NULL;
     return data;
-}
+}//
