@@ -4,7 +4,6 @@
 struct node {
   int vertex;
   struct node* next;
-  int spNum;
 };
 
 struct Graph {
@@ -13,7 +12,7 @@ struct Graph {
 };
 
 struct QNode {
-  struct node* data;
+  int data;
   struct QNode* next;
 };
 
