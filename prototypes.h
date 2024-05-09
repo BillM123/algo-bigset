@@ -6,7 +6,7 @@ struct node* createNode(int v);
 
 struct Graph* createAGraph(int vertices);
 
-struct node* addEdge(struct Graph* graph, int s, int d);
+void addEdge(struct Graph* graph, int s, int d);
 
 void printGraph(struct Graph* graph);
 
@@ -15,8 +15,8 @@ struct Queue* QInit();
 
 void QDestroy(struct Queue *queue);
 
-void insert(struct Queue *queue, void *data);
+void insert(struct Queue *queue, int data);
 
-void* delete(struct Queue *queue);
+int delete(struct Queue *queue);
 
 #endif
