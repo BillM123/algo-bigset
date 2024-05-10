@@ -79,7 +79,7 @@ int main() {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
     char blank;
-    struct node* edgeList[MAX_EDGES];
+    struct node* edgeMatrix[MAX_EDGES][MAX_EDGES];
     char filename[] = "edgelists/Erdos.edgelist";
     
     FILE *file = fopen(filename, "r");
@@ -92,9 +92,10 @@ int main() {
     struct Graph *graph = createAGraph(numVertices);
 
    for(int i = 0; fscanf(file, "%d %c%d\n", &num1, &blank, &num2); i++){
-        // Process the numbers here
-        edgeList[i] = addEdge(graph, num1, num2);
-        addEdge(graph, num2, num1);
+        //Note: We need to sort all the edges so we need them to be indexed
+        //In the matrix, i j and j i elements represent the same graph due to the
+        //nature of the input (it gives both i j and j i as different edges)
+        edgeMatrix[num1][num2] = addEdge(graph, num1, num2);
     }
     fclose(file);
 
