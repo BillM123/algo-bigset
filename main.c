@@ -36,22 +36,36 @@ void bfs(struct Graph graph,int S,int D,int V,int *spLength, int *numOfsps){
 
     while(queue->head->next != NULL){
         nodeNum = delete(queue);
-            if(graph.adjLists[nodeNum-1] != NULL){
-                curr_node = graph.adjLists[nodeNum-1];
-                while(curr_node != NULL){
+        
+        if(graph.adjLists[nodeNum-1] != NULL){
+            curr_node = graph.adjLists[nodeNum-1];
+            
+            while(curr_node != NULL){
                 if(curr_node->vertex == D && ((dist[nodeNum-1] + 1 ) == dist[D-1] || dist[D-1] == 0)){
                     (*numOfsps)++; 
                 }
                 if(dist[curr_node->vertex-1] == 0){
                     insert(queue,curr_node->vertex);
                     dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
+                    //Σημείωση: δεν ειμαι σιγουρος πως αυτο λειτουργει, 
+                    //αλλα φανταζομαι ειναι ενας απο τους δυο τροπους:
+                    //1: Καινουργιος κομβος μπαινει στην ουρα μονο οταν ειναι κομματι του sp
+                    //σε αυτή τη περίπτση αυτό μάλλον λειτουργαί
+                    //2: Καθε καινουργιος κομβος που βρισκουμε μπαινει στην ουρα
+                    //Οποτε θα πρεπει να μειονουμε το counter οταν διαβαζουμε/βγαζουμε το στοιχειο απο την ουρα
+                    //Οποτε βαλε curr_node->accessCounter--; γραμμη 39
+                    //(αν και θα πρεπει να αλλαξουμε τη delete να δινει pointer στο edge σε αυτη τη περιπτωση)
+                    //PS: οταν γραφω τα παραπανω ειναι 12 το βραδυ, σρυ (+ρωτα αν θες) αν δεν βγαζουν τα παραπανω νοημα
+                    curr_node->accessCounter++;
                 }
                 curr_node = curr_node->next;
             }  
         }   
     }
 
-    *spLength = dist[D-1] ;
+    *spLength = dist[D-1];
+    QDestroy(queue);
+    free(curr_node);
 }
 
 int *cpl_sp(struct Graph graph,int V,double *cpl){
@@ -68,7 +82,7 @@ int *cpl_sp(struct Graph graph,int V,double *cpl){
         }
     }
 
-    *cpl = sumOfSps / binomialCoeff(V,2);
+    *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
     return numOfsps;
 
@@ -79,8 +93,8 @@ int main() {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
     char blank;
-    struct node* edgeList[MAX_EDGES];
-    char filename[] = "edgelists/Erdos.edgelist";
+    //struct node* edgeMatrix[MAX_EDGES][MAX_EDGES];
+    char filename[] = "edgelists/karate.edgelist";
     
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -91,12 +105,15 @@ int main() {
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
 
-   for(int i = 0; fscanf(file, "%d %c%d\n", &num1, &blank, &num2); i++){
-        // Process the numbers here
-        edgeList[i] = addEdge(graph, num1, num2);
-        addEdge(graph, num2, num1);
+   while(fscanf(file, "%d %c%d\n", &num1, &blank, &num2)){
+        //Note: We need to sort all the edges so we need them to be indexed
+        //In the matrix, i j and j i elements represent the same graph due to the
+        //nature of the input (it gives both i j and j i as different edges)
+        //commented bc of stack overflow
+        /*edgeMatrix[num1][num2] = */addEdge(graph, num1, num2);
     }
     fclose(file);
+    printGraph(graph);
 
     int Source ;
     int Destination ;
@@ -116,4 +133,4 @@ int main() {
     printf("The sp length from %d to %d is: %d and we have: %d SPs\n",Source,Destination,spLength,numOfsps);
 
     return 0;
-} 
+}
