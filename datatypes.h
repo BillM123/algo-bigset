@@ -4,6 +4,7 @@
 struct node {
   int vertex;
   struct node* next;
+  int accessCounter;
 };
 
 struct Graph {

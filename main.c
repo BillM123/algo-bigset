@@ -68,7 +68,7 @@ int *cpl_sp(struct Graph graph,int V,double *cpl){
         }
     }
 
-    *cpl = sumOfSps / binomialCoeff(V,2);
+    *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
     return numOfsps;
 
@@ -79,8 +79,8 @@ int main() {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
     char blank;
-    struct node* edgeMatrix[MAX_EDGES][MAX_EDGES];
-    char filename[] = "edgelists/Erdos.edgelist";
+    //struct node* edgeMatrix[MAX_EDGES][MAX_EDGES];
+    char filename[] = "edgelists/karate.edgelist";
     
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
@@ -91,13 +91,14 @@ int main() {
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
 
-   for(int i = 0; fscanf(file, "%d %c%d\n", &num1, &blank, &num2); i++){
+   while(fscanf(file, "%d %c%d\n", &num1, &blank, &num2)){
         //Note: We need to sort all the edges so we need them to be indexed
         //In the matrix, i j and j i elements represent the same graph due to the
         //nature of the input (it gives both i j and j i as different edges)
-        edgeMatrix[num1][num2] = addEdge(graph, num1, num2);
+        /*edgeMatrix[num1][num2] = */addEdge(graph, num1, num2);
     }
     fclose(file);
+    printGraph(graph);
 
     int Source ;
     int Destination ;
@@ -117,4 +118,4 @@ int main() {
     printf("The sp length from %d to %d is: %d and we have: %d SPs\n",Source,Destination,spLength,numOfsps);
 
     return 0;
-} 
+}
