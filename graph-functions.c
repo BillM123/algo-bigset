@@ -28,12 +28,13 @@ struct Graph* createAGraph(int vertices) {
 }
 
 // Add edge
-void addEdge(struct Graph* graph, int s, int d) {
+struct node* addEdge(struct Graph* graph, int s, int d) {
   // Add edge from s to d
   struct node* newNode = createNode(d);
   newNode->next = graph->adjLists[s-1];
   graph->adjLists[s-1] = newNode;
 
+  return newNode;
 }
 
 // Print the graph
