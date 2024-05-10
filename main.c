@@ -39,6 +39,7 @@ void bfs(struct Graph graph,int S,int D,int V,int *spLength, int *numOfsps){
         
         if(graph.adjLists[nodeNum-1] != NULL){
             curr_node = graph.adjLists[nodeNum-1];
+            
             while(curr_node != NULL){
                 if(curr_node->vertex == D && ((dist[nodeNum-1] + 1 ) == dist[D-1] || dist[D-1] == 0)){
                     (*numOfsps)++; 
@@ -52,7 +53,9 @@ void bfs(struct Graph graph,int S,int D,int V,int *spLength, int *numOfsps){
         }   
     }
 
-    *spLength = dist[D-1] ;
+    *spLength = dist[D-1];
+    QDestroy(queue);
+    free(curr_node);
 }
 
 int *cpl_sp(struct Graph graph,int V,double *cpl){
