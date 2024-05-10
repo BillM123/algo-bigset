@@ -47,6 +47,16 @@ void bfs(struct Graph graph,int S,int D,int V,int *spLength, int *numOfsps){
                 if(dist[curr_node->vertex-1] == 0){
                     insert(queue,curr_node->vertex);
                     dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
+                    //Σημείωση: δεν ειμαι σιγουρος πως αυτο λειτουργει, 
+                    //αλλα φανταζομαι ειναι ενας απο τους δυο τροπους:
+                    //1: Καινουργιος κομβος μπαινει στην ουρα μονο οταν ειναι κομματι του sp
+                    //σε αυτή τη περίπτση αυτό μάλλον λειτουργαί
+                    //2: Καθε καινουργιος κομβος που βρισκουμε μπαινει στην ουρα
+                    //Οποτε θα πρεπει να μειονουμε το counter οταν διαβαζουμε/βγαζουμε το στοιχειο απο την ουρα
+                    //Οποτε βαλε curr_node->accessCounter--; γραμμη 39
+                    //(αν και θα πρεπει να αλλαξουμε τη delete να δινει pointer στο edge σε αυτη τη περιπτωση)
+                    //PS: οταν γραφω τα παραπανω ειναι 12 το βραδυ, σρυ (+ρωτα αν θες) αν δεν βγαζουν τα παραπανω νοημα
+                    curr_node->accessCounter++;
                 }
                 curr_node = curr_node->next;
             }  
@@ -99,6 +109,7 @@ int main() {
         //Note: We need to sort all the edges so we need them to be indexed
         //In the matrix, i j and j i elements represent the same graph due to the
         //nature of the input (it gives both i j and j i as different edges)
+        //commented bc of stack overflow
         /*edgeMatrix[num1][num2] = */addEdge(graph, num1, num2);
     }
     fclose(file);
