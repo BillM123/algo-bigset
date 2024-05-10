@@ -36,19 +36,20 @@ void bfs(struct Graph graph,int S,int D,int V,int *spLength, int *numOfsps){
 
     while(queue->head->next != NULL){
         nodeNum = delete(queue);
-            if(graph.adjLists[nodeNum-1] != NULL){
-                curr_node = graph.adjLists[nodeNum-1];
-                while(curr_node != NULL){
-                    if(curr_node->vertex == D && ((dist[nodeNum-1] + 1 ) == dist[D-1] || dist[D-1] == 0)){
-                        (*numOfsps)++; 
-                    }
-                    if(dist[curr_node->vertex-1] == 0){
-                        insert(queue,curr_node->vertex);
-                        dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
-                    }
-                    curr_node = curr_node->next;
-                }  
-            }   
+        
+        if(graph.adjLists[nodeNum-1] != NULL){
+            curr_node = graph.adjLists[nodeNum-1];
+            while(curr_node != NULL){
+                if(curr_node->vertex == D && ((dist[nodeNum-1] + 1 ) == dist[D-1] || dist[D-1] == 0)){
+                    (*numOfsps)++; 
+                }
+                if(dist[curr_node->vertex-1] == 0){
+                    insert(queue,curr_node->vertex);
+                    dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
+                }
+                curr_node = curr_node->next;
+            }  
+        }   
     }
 
     *spLength = dist[D-1] ;
