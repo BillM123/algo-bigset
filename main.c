@@ -91,9 +91,11 @@ int *cpl_sp(struct Graph graph,int V,double *cpl){
 
 int main() {
     int numVertices = 0;
+    int numEdges = 0;
     int num1 = 0, num2 = 0;
     char blank;
     struct node*** edgeMatrix;
+    struct node**  edgeList;
     char filename[] = "edgelists/karate.edgelist";
     
     FILE *file = fopen(filename, "r");
@@ -106,10 +108,11 @@ int main() {
     struct Graph *graph = createAGraph(numVertices);
 
     //memory allocation for the matrix for rows
-    malloc(numVertices * sizeof(int **));
+    edgeMatrix = (struct node ***)malloc(numVertices * sizeof(int **));
     //for columns
     for (int i = 0; i < numVertices; i++) {
-        edgeMatrix[i] = malloc(numVertices * sizeof(int *));
+        edgeMatrix[i] = (struct node **)malloc(numVertices * sizeof(int *));
+        //Init of individual elements
         for (int j = 0; j < numVertices; j++){
             edgeMatrix[i][j] = NULL;
         }
@@ -122,6 +125,7 @@ int main() {
         //allocate memory only for non-empty matrix spaces
         edgeMatrix[num1][num2] = (struct node *)malloc(sizeof(struct node));
         edgeMatrix[num1][num2] = addEdge(graph, num1, num2);
+        numEdges++;
     }
     fclose(file);
     printGraph(graph);
@@ -143,6 +147,24 @@ int main() {
 
     printf("The sp length from %d to %d is: %d and we have: %d SPs\n",Source,Destination,spLength,numOfsps);
 
+    //NOTE: This should be put below the cpl_sp call
+    //Initialize the edgeList
+    edgeList = malloc((numEdges/2 + 1)*sizeof(int *));
+
+    //Convert the edgeMatrix to an edgeList to be able to sort
+    for(int i = 0, k = 0; i < numVertices; i++){
+        for(int j = 0; j < i; j++){
+            if(edgeMatrix[i][j] != NULL){
+                //Note: Non directional graph: gurantee that edgeMatrix[j][i] also exists 
+                edgeMatrix[i][j]->accessCounter+= edgeMatrix[j][i]->accessCounter;
+
+                edgeList[k] = malloc(sizeof(struct node));
+                edgeList[k] = edgeMatrix[i][j];
+            }
+        }
+    }
+
+    //Set free the edgematrix
     for(int i = 0; i < numVertices; i++){
         for(int j = 0; j < numVertices; j++){
             if(edgeMatrix[i][j] != NULL){
