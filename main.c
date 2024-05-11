@@ -61,7 +61,8 @@ int **pathSearch(struct Graph graph,int S,int V){
                     dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
                     numOfsps[curr_node->vertex-1]++;
                 }
-                if(dist[curr_node->vertex-1] == dist[nodeNum-1] + 1){
+                if(dist[curr_node->vertex-1] == 0 && 
+                    dist[curr_node->vertex-1] == dist[nodeNum-1] + 1){
                     numOfsps[curr_node->vertex-1]++;
                 }
                 curr_node = curr_node->next;
