@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "prototypes.h"
-#include "datatypes.h"
+#include "include/prototypes.h"
+#include "include/datatypes.h"
 
 //Note: Initially got functions from source:
 //https://www.programiz.com/dsa/graph-adjacency-list

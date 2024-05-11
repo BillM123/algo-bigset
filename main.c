@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "prototypes.h"
-#include "datatypes.h"
+#include "include/prototypes.h"
+#include "include/datatypes.h"
 #define MAX_EDGES 12000
 
 //https://www.geeksforgeeks.org/binomial-coefficient-dp-9/
@@ -20,83 +20,84 @@ int binomialCoeff(int n, int k)
            + binomialCoeff(n - 1, k);
 }
 
+//https://www.geeksforgeeks.org/program-find-sum-elements-given-array/
+// function to return sum of elements
+// in an array of size n
+int sum(int arr[], int n)
+{
+    // base case
+    if (n == 0) {
+        return 0;
+    }
+    else {
+        // recursively calling the function
+        return arr[0] + sum(arr + 1, n - 1);
+    }
+}
 
-void bfs(struct Graph graph,int S,int D,int V,int *spLength, int *numOfsps){
-    int dist[V] ;
+
+int **pathSearch(struct Graph graph,int S,int V){
+    int *dist = malloc(V*sizeof(int)) ;
+    int *numOfsps = malloc(V*sizeof(int));
+    int **returnValues = malloc(2*sizeof(int*));
     int nodeNum ;
     
     struct node *curr_node = malloc(sizeof(struct node));
 
-    memset(dist, 0, V*sizeof(int));
-    *spLength = 0;
-    *numOfsps = 0;
+    memset(dist,0,V*sizeof(int));
+    memset(numOfsps,0,V*sizeof(int));
 
     struct Queue *queue = QInit();
     insert(queue,S);
 
     while(queue->head->next != NULL){
         nodeNum = delete(queue);
-        
         if(graph.adjLists[nodeNum-1] != NULL){
             curr_node = graph.adjLists[nodeNum-1];
             
             while(curr_node != NULL){
-                if(curr_node->vertex == D && ((dist[nodeNum-1] + 1 ) == dist[D-1] || dist[D-1] == 0)){
-                    (*numOfsps)++; 
-                }
                 if(dist[curr_node->vertex-1] == 0){
                     insert(queue,curr_node->vertex);
                     dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
-                    //Σημείωση: δεν ειμαι σιγουρος πως αυτο λειτουργει, 
-                    //αλλα φανταζομαι ειναι ενας απο τους δυο τροπους:
-                    //1: Καινουργιος κομβος μπαινει στην ουρα μονο οταν ειναι κομματι του sp
-                    //σε αυτή τη περίπτση αυτό μάλλον λειτουργαί
-                    //2: Καθε καινουργιος κομβος που βρισκουμε μπαινει στην ουρα
-                    //Οποτε θα πρεπει να μειονουμε το counter οταν διαβαζουμε/βγαζουμε το στοιχειο απο την ουρα
-                    //Οποτε βαλε curr_node->accessCounter--; γραμμη 39
-                    //(αν και θα πρεπει να αλλαξουμε τη delete να δινει pointer στο edge σε αυτη τη περιπτωση)
-                    //PS: οταν γραφω τα παραπανω ειναι 12 το βραδυ, σρυ (+ρωτα αν θες) αν δεν βγαζουν τα παραπανω νοημα
-                    curr_node->accessCounter++;
+                    numOfsps[curr_node->vertex-1]++;
+                }
+                if(dist[curr_node->vertex-1] == dist[nodeNum-1] + 1){
+                    numOfsps[curr_node->vertex-1]++;
                 }
                 curr_node = curr_node->next;
             }  
         }   
     }
 
-    *spLength = dist[D-1];
+    returnValues[0] = dist;
+    returnValues[1] = numOfsps;
+
     QDestroy(queue);
     free(curr_node);
+
+    return returnValues;
 }
 
-int *cpl_sp(struct Graph graph,int V,double *cpl){
-    int i,j,k = 0;
-    int spLength;
-    int *numOfsps = malloc(binomialCoeff(V,2) * sizeof(int));
+void cpl_sp(struct Graph graph,int V,double *cpl){
+    int i;
+    int **pathSearchReturn;
     int sumOfSps = 0 ;
 
     for(i=1; i<V; i++){
-        for(j=i+1; j<V; j++){
-            bfs(graph,i,j,V,&spLength,&numOfsps[k]);
-            sumOfSps += spLength;
-            k++;
-        }
+        pathSearchReturn = pathSearch(graph,i,V);
+        sumOfSps += sum(pathSearchReturn[0],V);
     }
-
+    
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
-
-    return numOfsps;
 
 }
 
 
-int main() {
+int main(int argc, char* argv[]) {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
-    char blank;
-    //struct node* edgeMatrix[MAX_EDGES][MAX_EDGES];
-    char filename[] = "edgelists/karate.edgelist";
     
-    FILE *file = fopen(filename, "r");
+    FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
         printf("Error opening file\n");
         return 1;
@@ -104,33 +105,27 @@ int main() {
 
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
-
-   while(fscanf(file, "%d %c%d\n", &num1, &blank, &num2)){
-        //Note: We need to sort all the edges so we need them to be indexed
-        //In the matrix, i j and j i elements represent the same graph due to the
-        //nature of the input (it gives both i j and j i as different edges)
-        //commented bc of stack overflow
-        /*edgeMatrix[num1][num2] = */addEdge(graph, num1, num2);
+   
+   #if defined(Erdos) || defined(grid)
+   while(fscanf(file, "%d %d\n", &num1,&num2)){
+        addEdge(graph, num1, num2);
+        addEdge(graph, num2, num1);
     }
+    #endif
+
+    #ifdef karate
+        char blank;
+        while(fscanf(file, "%d %c%d\n", &num1,&blank,&num2)){
+        addEdge(graph, num1, num2);
+        addEdge(graph, num2, num1);
+    }
+    #endif 
     fclose(file);
-    printGraph(graph);
+    //printGraph(graph);
 
-    int Source ;
-    int Destination ;
-
-    printf("Input to node to find their SP Length and number of SPs: ");
-    scanf("%d %d",&Source, &Destination);
-
-    int spLength;
-    int numOfsps;
-
-    //double cpl;
-    //int *arraySPs=cpl_sp(*graph,numVertices,&cpl);
-    //printf("The CPL is: %d\n", cpl);
-
-    bfs(*graph,Source,Destination,numVertices,&spLength,&numOfsps);
-
-    printf("The sp length from %d to %d is: %d and we have: %d SPs\n",Source,Destination,spLength,numOfsps);
+    double cpl;
+    cpl_sp(*graph,numVertices,&cpl);
+    printf("The CPL is: %lf\n", cpl);
 
     return 0;
 }

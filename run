@@ -1,0 +1,12 @@
+#!/bin/bash
+
+echo Type the edge list you wish to run:
+read edgelist
+make EDGELIST=$edgelist
+clear
+if [ "$edgelist" == "Erdos" ];
+then
+  echo "Will take some time, sit back and relax :)"
+fi
+make exec EDGELIST=$edgelist
+make clean

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "datatypes.h"
-#include "prototypes.h"
+#include "include/prototypes.h"
+#include "include/datatypes.h"
 
 //https://gist.github.com/ryankurte/61f95dc71133561ed055ff62b33585f8
 
