@@ -143,5 +143,15 @@ int main() {
 
     printf("The sp length from %d to %d is: %d and we have: %d SPs\n",Source,Destination,spLength,numOfsps);
 
+    for(int i = 0; i < numVertices; i++){
+        for(int j = 0; j < numVertices; j++){
+            if(edgeMatrix[i][j] != NULL){
+                free(edgeMatrix[i][j]);
+            }
+        }
+        free(edgeMatrix[i]);
+    }
+    free(edgeMatrix);
+
     return 0;
 }
