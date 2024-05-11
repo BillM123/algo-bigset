@@ -110,6 +110,9 @@ int main() {
     //for columns
     for (int i = 0; i < numVertices; i++) {
         edgeMatrix[i] = malloc(numVertices * sizeof(int *));
+        for (int j = 0; j < numVertices; j++){
+            edgeMatrix[i][j] = NULL;
+        }
     }
 
    while(fscanf(file, "%d %c%d\n", &num1, &blank, &num2)){
