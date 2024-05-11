@@ -123,7 +123,7 @@ int main() {
         //In the matrix, i j and j i elements represent the same graph due to the
         //nature of the input (it gives both i j and j i as different edges)
         //allocate memory only for non-empty matrix spaces
-        edgeMatrix[num1][num2] = (struct node *)malloc(sizeof(struct node));
+        edgeMatrix[num1][num2] = (struct node *)malloc(sizeof(struct node)); //SEGMENTATION FAULT
         edgeMatrix[num1][num2] = addEdge(graph, num1, num2);
         numEdges++;
     }
