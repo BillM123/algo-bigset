@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo -e "List of edgelists:\n"
+echo Erdos
+echo grid
+echo -e "karate\n"
+
 echo Type the edge list you wish to run:
 read edgelist
 make EDGELIST=$edgelist
