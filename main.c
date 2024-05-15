@@ -35,6 +35,15 @@ int sum(int arr[], int n)
     }
 }
 
+//This function zeros the first n cell of an int array
+void nZeros(int **array,int n){
+    int i;
+
+    for(i=0; i<n; i++){
+        *(array[0]) = 0;
+    }     
+}
+
 
 int **pathSearch(struct Graph graph,int S,int V){
     int *dist = malloc(V*sizeof(int)) ;
@@ -56,13 +65,12 @@ int **pathSearch(struct Graph graph,int S,int V){
             curr_node = graph.adjLists[nodeNum-1];
             
             while(curr_node != NULL){
-                if(dist[curr_node->vertex-1] == 0){
+                if(dist[curr_node->vertex-1] == 0 && (curr_node->vertex) != S){
                     insert(queue,curr_node->vertex);
                     dist[curr_node->vertex - 1] = dist[nodeNum-1] + 1;
                     numOfsps[curr_node->vertex-1]++;
                 }
-                if(dist[curr_node->vertex-1] == 0 && 
-                    dist[curr_node->vertex-1] == dist[nodeNum-1] + 1){
+                else if(dist[curr_node->vertex-1] == dist[nodeNum-1] + 1){
                     numOfsps[curr_node->vertex-1]++;
                 }
                 curr_node = curr_node->next;
@@ -84,11 +92,13 @@ void cpl_sp(struct Graph graph,int V,double *cpl){
     int **pathSearchReturn;
     int sumOfSps = 0 ;
 
-    for(i=1; i<V; i++){
+    for(i=1; i<=V; i++){
         pathSearchReturn = pathSearch(graph,i,V);
+        nZeros(&pathSearchReturn[0],i);
         sumOfSps += sum(pathSearchReturn[0],V);
+        
     }
-    
+
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
 }
@@ -114,11 +124,10 @@ int main(int argc, char* argv[]) {
     }
     #endif
 
-    #ifdef karate
+    #if defined(karate) || defined(dim)
         char blank;
         while(fscanf(file, "%d %c%d\n", &num1,&blank,&num2)){
         addEdge(graph, num1, num2);
-        addEdge(graph, num2, num1);
     }
     #endif 
     fclose(file);
