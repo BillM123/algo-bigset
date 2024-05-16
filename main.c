@@ -198,8 +198,12 @@ int main(int argc, char* argv[]) {
     double cpl;
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
+    mergeSort(edgeList, 0, numEdges-1);
+    printf("Most used edge:%d<->%d with %d uses\n", 
+    edgeList[0]->vertex1->vertex, edgeList[0]->vertex2->vertex,
+    edgeList[0]->vertex1->accessCounter + edgeList[0]->vertex2->accessCounter);
 
-    for(; numEdges >= 0; numEdges--){
+    for(int i = 0; i < numEdges; i++){
         free(edgeList[numEdges]);
     }//Note: each edge could be free'd when removed
     free(graph);
