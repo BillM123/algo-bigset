@@ -99,6 +99,6 @@ int main(int argc, char *argv[]){
             }
         }
     }
-        
+    fprintf(fileOut, "end\n");    
     return 0;
 } 
