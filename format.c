@@ -86,21 +86,17 @@ int main(int argc, char *argv[]){
     if(format == 1){
         while(fscanf(fileIn, FORMAT1, &num1, &num2)){
             array[num1-1][num2-1] = 1; 
-            printf("ping: %d, %d\n", num1, num2);
             if(array[num2-1][num1-1] != 1){
                 fprintf(fileOut, "%d %d\n", num1, num2);
             }
-            printf("pong\n");
         }
     }
     else if(format == 2){
         while(fscanf(fileIn, FORMAT2, &num1, &num2)){
             array[num1-1][num2-1] = 1; 
-            printf("ping\n");
             if(array[num2-1][num1-1] != 1){
                 fprintf(fileOut, "%d %d\n", num1, num2);
             }
-            printf("pong\n");
         }
     }
         
