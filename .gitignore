@@ -3,3 +3,4 @@ graph-functions.o
 main
 main.o
 .vscode/launch.json
+format

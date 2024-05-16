@@ -9,6 +9,8 @@ graph-functions.o: graph-functions.c include/datatypes.h include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 fifo.o: fifo.c include/datatypes.h include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
+format: format.c
+	$(CC) $(CFLAGS) -o $@ $<
 
 .PHONY:
 exec: main
