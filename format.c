@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
     int isIndex = 0;
     int num1 = 0, num2 = 0;
     int format = getFormat(fileIn, &isIndex);
-    
+    int vertnum;
 
     fseek(fileIn, 0L, SEEK_SET);
 
@@ -63,6 +63,7 @@ int main(int argc, char *argv[]){
 
         getline(&buf, &n, fileIn);
         fprintf(fileOut, "%s", buf);
+        vertnum = atoi(buf);
         free(buf);
     }
     else{
@@ -71,16 +72,35 @@ int main(int argc, char *argv[]){
             return 1;
         }
         fprintf(fileOut, "%s", argv[3]);
+        vertnum = atoi(argv[3]);
+    }
+    int **array = malloc((vertnum)*sizeof(int*));
+    for(int i = 0; i < vertnum; i++){
+        array[i] = malloc((vertnum)*sizeof(int));
+        for(int j = 0; j < vertnum; j++){
+            //array[i][j] = malloc(sizeof(int));
+            array[i][j] = 0;
+        }
     }
 
     if(format == 1){
         while(fscanf(fileIn, FORMAT1, &num1, &num2)){
-            fprintf(fileOut, "%d %d\n", num1, num2);
+            array[num1-1][num2-1] = 1; 
+            printf("ping: %d, %d\n", num1, num2);
+            if(array[num2-1][num1-1] != 1){
+                fprintf(fileOut, "%d %d\n", num1, num2);
+            }
+            printf("pong\n");
         }
     }
     else if(format == 2){
         while(fscanf(fileIn, FORMAT2, &num1, &num2)){
-            fprintf(fileOut, "%d %d\n", num1, num2);
+            array[num1-1][num2-1] = 1; 
+            printf("ping\n");
+            if(array[num2-1][num1-1] != 1){
+                fprintf(fileOut, "%d %d\n", num1, num2);
+            }
+            printf("pong\n");
         }
     }
         
