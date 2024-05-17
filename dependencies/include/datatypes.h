@@ -1,6 +1,12 @@
 #ifndef datatypes
 #define datatypes
 
+struct pairs{
+  int numOfsps;
+  int i;
+  int j;
+};
+
 struct node {
   int vertex;
   struct node* next;

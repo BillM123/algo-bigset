@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "include/prototypes.h"
 #include "include/datatypes.h"
+#include "include/prototypes.h"
 
 //Note: Initially got functions from source:
 //https://www.programiz.com/dsa/graph-adjacency-list
@@ -23,7 +23,6 @@ struct Graph* createAGraph(int vertices) {
   int i;
   for (i = 0; i < vertices; i++)
     graph->adjLists[i] = NULL;
-
   return graph;
 }
 
