@@ -32,9 +32,10 @@ int main(int argc, char* argv[]) {
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
 
-    for(; numEdges >= 0; numEdges--){
+    for(int i = 0; i < numEdges; i++){
         free(edgeList[numEdges]);
     }//Note: each edge could be free'd when removed
+
     free(graph);
     free(edgeList);
     return 0;

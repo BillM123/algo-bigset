@@ -2,5 +2,6 @@ fifo.o
 graph-functions.o
 main
 main.o
+cpl_sp.o
 .vscode/launch.json
 format
