@@ -27,5 +27,10 @@ struct Queue {
   struct QNode* head;
   int size;
 };
+struct Edge {
+  struct node* vertex1;
+  struct node* vertex2;
+  int sum;
+};
 
 #endif

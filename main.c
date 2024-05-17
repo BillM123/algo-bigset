@@ -6,7 +6,7 @@
 
 
 int main(int argc, char* argv[]) {
-    int numVertices = 0;
+    int numVertices = 0, numEdges;
     int num1 = 0, num2 = 0;
     
     FILE *file = fopen(argv[1], "r");
@@ -17,20 +17,14 @@ int main(int argc, char* argv[]) {
 
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
+    struct Edge **edgeList = malloc(sizeof(struct Edge*));
    
-   #if defined(Erdos) || defined(grid)
-   while(fscanf(file, "%d %d\n", &num1,&num2)){
-        addEdge(graph, num1, num2);
-        addEdge(graph, num2, num1);
+    for(numEdges = 0; fscanf(file, "%d %d\n", &num1,&num2); numEdges++){
+        edgeList[numEdges] = malloc(sizeof(struct Edge));
+        edgeList[numEdges]->vertex1 = addEdge(graph, num1, num2);
+        edgeList[numEdges]->vertex2 = addEdge(graph, num2, num1);
     }
-    #endif
-
-    #if defined(karate) || defined(dim)
-        char blank;
-        while(fscanf(file, "%d %c%d\n", &num1,&blank,&num2)){
-        addEdge(graph, num1, num2);
-    }
-    #endif 
+    
     fclose(file);
     //printGraph(graph);
 
@@ -38,5 +32,10 @@ int main(int argc, char* argv[]) {
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
 
+    for(; numEdges >= 0; numEdges--){
+        free(edgeList[numEdges]);
+    }//Note: each edge could be free'd when removed
+    free(graph);
+    free(edgeList);
     return 0;
 }
