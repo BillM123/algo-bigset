@@ -5,7 +5,7 @@ main: main.o graph-functions.o fifo.o cpl_sp.o
 	$(CC) $(CFLAGS) -o $@ $^ -fsanitize=address
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
-graph-functions.o: graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
+graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
