@@ -9,7 +9,8 @@ graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes
 	$(CC) $(CFLAGS) -c -o $@ $<
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
-	
+fifo.o: dependencies/fifo.c include/datatypes.h include/prototypes.h
+	$(CC) $(CFLAGS) -c -o $@ $<
 format: format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
