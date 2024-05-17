@@ -1,7 +1,6 @@
 #include <stdlib.h>
-#include <assert.h>
-#include "include/prototypes.h"
 #include "include/datatypes.h"
+#include "include/prototypes.h"
 
 //https://gist.github.com/ryankurte/61f95dc71133561ed055ff62b33585f8
 
@@ -37,7 +36,7 @@ void insert(struct Queue *queue, int data){
     queue->head->next = newNode;
     queue->size++;
 }
-int delete(struct Queue *queue){
+int QDelete(struct Queue *queue){
     struct QNode *curr;
     struct QNode *prev;
     int data;

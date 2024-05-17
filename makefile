@@ -1,14 +1,15 @@
 CC=clang
 CFLAGS=-Wall -g
 
-main: main.o graph-functions.o fifo.o
+main: main.o graph-functions.o fifo.o cpl_sp.o
 	$(CC) $(CFLAGS) -o $@ $^ -fsanitize=address
-main.o: main.c include/datatypes.h include/prototypes.h
+main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
-graph-functions.o: graph-functions.c include/datatypes.h include/prototypes.h
+graph-functions.o: graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
-fifo.o: fifo.c include/datatypes.h include/prototypes.h
+cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
+	
 format: format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
@@ -23,8 +24,10 @@ edgelists/grid-formatted.edgelist: edgelists/grid.edgelist format
 edgelists/Erdos-formatted.edgelist: edgelists/Erdos.edgelist
 	./format edgelists/Erdos.edgelist edgelists/Erdos-formatted.edgelist
 
+
+
 .PHONY:
 exec: main
 	@./main edgelists/$(EDGELIST).edgelist
 clean:
-	@rm main main.o graph-functions.o fifo.o
+	@rm main main.o graph-functions.o fifo.o cpl_sp.o
