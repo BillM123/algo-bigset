@@ -17,7 +17,7 @@ void QDestroy(struct Queue *queue);
 
 void insert(struct Queue *queue, int data);
 
-int delete(struct Queue *queue);
+int QDelete(struct Queue *queue);
 
 //Function prototypes cpl_sp
 

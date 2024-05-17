@@ -117,6 +117,7 @@ void nZerosPairs(struct pairs **array,int n){
 
 
 struct pairs *pathSearch(struct Graph graph,int **dist,int S,int V){
+    
     struct pairs *numOfSPsArray = malloc(V*sizeof(struct pairs)) ;
     int nodeNum ;
     
@@ -129,7 +130,7 @@ struct pairs *pathSearch(struct Graph graph,int **dist,int S,int V){
     insert(queue,S);
 
     while(queue->head->next != NULL){
-        nodeNum = delete(queue);
+        nodeNum = QDelete(queue);
         if(graph.adjLists[nodeNum-1] != NULL){
             curr_node = graph.adjLists[nodeNum-1];
             
