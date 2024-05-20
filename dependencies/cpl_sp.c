@@ -154,7 +154,7 @@ void CountTotalEdges(int **edgeArray,struct parents *par,int S,int V){
 void pathSearch(struct Graph graph,int **dist,struct parents **par,struct pairs **numOfSPsArray,int S,int V){
     int nodeNum ;
     
-    struct node *curr_node = malloc(sizeof(struct node));
+    struct node *curr_node;
 
     int i;
     for(i=0; i<V; i++){
@@ -190,9 +190,10 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,struct pairs 
                 else if((*dist)[curr_node->vertex-1] == (*dist)[nodeNum-1] + 1){
                     (*numOfSPsArray)[curr_node->vertex-1].numOfsps++;
 
-                    (*par)[curr_node->vertex-1].nextParent = malloc(sizeof(struct parents));
+                    struct parents *tmp = malloc(sizeof(struct parents));
+                    tmp->nextParent = (*par)[curr_node->vertex-1].nextParent; 
+                    (*par)[curr_node->vertex-1].nextParent = tmp;
                     (*par)[curr_node->vertex-1].nextParent->parent = nodeNum;
-                    (*par)[curr_node->vertex-1].nextParent->nextParent = NULL;
                 }
                 curr_node = curr_node->next;
             }  
@@ -200,7 +201,6 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,struct pairs 
     }
 
     QDestroy(queue);
-    free(curr_node);
 
 }
 
