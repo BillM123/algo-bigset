@@ -33,8 +33,10 @@ void nZeros(int **array,int n);
 
 void nZerosPairs(struct pairs **array,int n);
 
-struct pairs *pathSearch(struct Graph graph,int **dist,int S,int V);
+void pathSearch(struct Graph graph,int **dist,struct parents **par,struct pairs **numOfSPsArray,int S,int V);
 
 void cpl_sp(struct Graph graph,int V,double *cpl);
+
+void CountTotalEdges(int **edgeArray,struct parents *par,int S,int V);
 
 #endif

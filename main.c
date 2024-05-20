@@ -17,12 +17,10 @@ int main(int argc, char* argv[]) {
 
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
-    struct Edge **edgeList = malloc(sizeof(struct Edge*));
-   
+
     for(numEdges = 0; fscanf(file, "%d %d\n", &num1,&num2); numEdges++){
-        edgeList[numEdges] = malloc(sizeof(struct Edge));
-        edgeList[numEdges]->vertex1 = addEdge(graph, num1, num2);
-        edgeList[numEdges]->vertex2 = addEdge(graph, num2, num1);
+        addEdge(graph, num1, num2);
+        addEdge(graph, num2, num1);
     }
     
     fclose(file);
@@ -32,11 +30,8 @@ int main(int argc, char* argv[]) {
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
 
-    for(int i = 0; i < numEdges; i++){
-        free(edgeList[numEdges]);
-    }//Note: each edge could be free'd when removed
-
     free(graph);
-    free(edgeList);
+    system("leaks executablename");
     return 0;
+    
 }
