@@ -30,6 +30,18 @@ int main(int argc, char* argv[]) {
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
 
+    for(int i =0; i < numVertices; i++){
+        struct node *tmpPrev = graph->adjLists[i];
+        struct node *tmpNext;
+
+        while (tmpPrev != NULL) {
+            tmpNext = tmpPrev->next;
+            free(tmpPrev);
+            tmpPrev = tmpNext;
+        }
+
+    }
+    free(graph->adjLists);
     free(graph);
     system("leaks executablename");
     return 0;
