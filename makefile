@@ -15,9 +15,9 @@ format: format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 test: main edgelists/karate-formatted.edgelist edgelists/grid-formatted.edgelist edgelists/Erdos-formatted.edgelist
-	./main edgelists/karate-formatted.edgelist >> output/karate.out
-	./main edgelists/grid-formatted.edgelist >> output/grid.out
-	./main edgelists/Erdos-formatted.edgelist >> output/Erdos.out
+	time ./main edgelists/karate-formatted.edgelist > output/karate.out
+	time ./main edgelists/grid-formatted.edgelist > output/grid.out
+	time ./main edgelists/Erdos-formatted.edgelist > output/Erdos.out
 edgelists/karate-formatted.edgelist: edgelists/karate.edgelist format
 	./format edgelists/karate.edgelist edgelists/karate-formatted.edgelist
 edgelists/grid-formatted.edgelist: edgelists/grid.edgelist format

@@ -120,19 +120,19 @@ void countEdgesPath(int **edgeArray,struct parents *par,int S,int D){
     int curr_node = D;
     struct parents curr_parent,initialParent = par[curr_node-1];
 
-    printf("\n%d %d\n",S ,D);
+    //printf("\n%d %d\n",S ,D);
     while(1){
         curr_node = D;
         curr_parent = initialParent;
         while(curr_parent.parent != S){
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1]++;
-            printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
+            //printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
             //((*edgeArray)+curr_node-1)[curr_parent.parent-1]++;
             curr_node = curr_parent.parent;
             curr_parent = par[curr_node-1];
         }
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1]++;
-        printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
+        //printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
         //((*edgeArray)+curr_node-1)[curr_parent.parent-1]++;
 
         if(initialParent.nextParent == NULL){
