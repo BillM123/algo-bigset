@@ -1,6 +1,11 @@
 #ifndef datatypes
 #define datatypes
 
+struct parents{
+  int parent;
+  struct parents *nextParent;
+};
+
 struct pairs{
   int numOfsps;
   int i;
@@ -10,7 +15,6 @@ struct pairs{
 struct node {
   int vertex;
   struct node* next;
-  int accessCounter;
 };
 
 struct Graph {
@@ -27,10 +31,4 @@ struct Queue {
   struct QNode* head;
   int size;
 };
-struct Edge {
-  struct node* vertex1;
-  struct node* vertex2;
-  int sum;
-};
-
 #endif
