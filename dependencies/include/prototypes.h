@@ -23,7 +23,7 @@ int QDelete(struct Queue *queue);
 
 void mergePairs(struct pairs arr[], int l, int m, int r);
 
-void mergeSortPairs(struct pairs arr[], int l, int r);
+void mergeSortPairs(struct pairs arr[], int n);
 
 int binomialCoeff(int n, int k);
 
@@ -33,10 +33,10 @@ void nZeros(int **array,int n);
 
 void nZerosPairs(struct pairs **array,int n);
 
-void pathSearch(struct Graph graph,int **dist,struct parents **par,struct pairs **numOfSPsArray,int S,int V);
+void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V);
 
 void cpl_sp(struct Graph graph,int V,double *cpl);
 
-void CountTotalEdges(int **edgeArray,struct parents *par,int S,int V);
+void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V);
 
 #endif
