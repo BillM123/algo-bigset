@@ -6,7 +6,7 @@
 
 
 int main(int argc, char* argv[]) {
-    int numVertices = 0, numEdges;
+    int numVertices = 0;
     int num1 = 0, num2 = 0;
     
     FILE *file = fopen(argv[1], "r");
@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
 
-    for(numEdges = 0; fscanf(file, "%d %d\n", &num1,&num2); numEdges++){
+   while (fscanf(file, "%d %d\n", &num1, &num2) == 2) {
         addEdge(graph, num1, num2);
         addEdge(graph, num2, num1);
     }
@@ -43,7 +43,6 @@ int main(int argc, char* argv[]) {
     }
     free(graph->adjLists);
     free(graph);
-    system("leaks executablename");
     return 0;
     
 }
