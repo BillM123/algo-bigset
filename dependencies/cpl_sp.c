@@ -191,7 +191,7 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
     }
 
     struct Queue *queue = QInit();
-    insert(queue,S);
+    QInsert(queue,S);
     (*par)[S-1].parent = S;
     (*par)[S-1].nextParent = NULL;
 
@@ -202,7 +202,7 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
             
             while(curr_node != NULL){
                 if((*dist)[curr_node->vertex-1] == 0 && (curr_node->vertex) != S){
-                    insert(queue,curr_node->vertex);
+                    QInsert(queue,curr_node->vertex);
                     (*dist)[curr_node->vertex - 1] = (*dist)[nodeNum-1] + 1;
 
                     (*par)[curr_node->vertex-1].parent = nodeNum;
@@ -221,12 +221,7 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
                 }
 
                 curr_node = curr_node->next;
-            }  
-            //if (curr_node != NULL && curr_node->vertex == Dest) {
-            //    break; // If this activates, Dest was found priviously
-            //}
-            //Leaving them commented because I dont know how much time it will add to the execution,
-            //MIght be worth reimplementing a stripped-down vesion of the function just to find Dest
+            } 
         }   
     }
 

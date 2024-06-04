@@ -9,6 +9,7 @@ int main(int argc, char* argv[]) {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
     struct pairs MostUsedEdge = {0};
+    struct GraphPair graphPair;
 
     FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
@@ -46,7 +47,7 @@ int main(int argc, char* argv[]) {
         
         int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
         if(isConnected == 0){
-            
+            graphPair = splitGraph(graph, dist, numVertices);
         }
         free(dist);
         free(par);

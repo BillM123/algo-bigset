@@ -19,7 +19,7 @@ struct Queue* QInit();
 
 void QDestroy(struct Queue *queue);
 
-void insert(struct Queue *queue, int data);
+void QInsert(struct Queue *queue, int data);
 
 int QDelete(struct Queue *queue);
 
