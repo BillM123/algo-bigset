@@ -68,12 +68,15 @@ void analyseGraph(struct Graph *graph, int numVertices){
         MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
 
         //debug
-        printf("Edge: %d<-->%d\n", MostUsedEdge.i, MostUsedEdge.j);
-        printGraph(graph);
+        //printf("Edge: %d<-->%d\n", MostUsedEdge.i, MostUsedEdge.j);
+        //printGraph(graph);
 
         //Remove the most used edge in each iter
         removeEdge(graph, MostUsedEdge.i, MostUsedEdge.j);
         removeEdge(graph, MostUsedEdge.j, MostUsedEdge.i);
+
+        //debug
+        //printGraph(graph);
 
         //Could tell us if graph is split into 2. Assumes dist gets init'd in pathSearch func.
         int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);

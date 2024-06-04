@@ -79,7 +79,7 @@ void removeEdge(struct Graph* graph, int s, int d){
   //Note: If there exists only one node, this is 
   //the only possible note we could be looking for
   if(tmpPrev->vertex == d){
-    graph->adjLists[s]->next = tmpNext;
+    graph->adjLists[s-1] = tmpNext;
     free(tmpPrev);
     return;
   }
@@ -93,7 +93,7 @@ void removeEdge(struct Graph* graph, int s, int d){
   }
   //printf("\n");
   tmpPrev->next = tmpNext->next;
-  tmpNext->next = NULL;
+  //tmpNext->next = NULL;
   free(tmpNext);
 }
 
