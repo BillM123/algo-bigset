@@ -5,3 +5,5 @@ main.o
 cpl_sp.o
 .vscode/launch.json
 format
+.DS_Store
+format.dSYM
