@@ -216,6 +216,7 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
                 }
                 if (*dist[curr_node->vertex - 1] == *dist[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
                     //break; // Exit the loop when we've reached the target node
+                    QDestroy(queue);
                     return 1;
                 }
 

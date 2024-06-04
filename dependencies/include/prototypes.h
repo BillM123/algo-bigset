@@ -6,6 +6,8 @@ struct node* createNode(int v);
 
 struct Graph* createAGraph(int vertices);
 
+struct GraphPair splitGraph(struct Graph *graph, int *dist, int numVertices);
+
 struct node* addEdge(struct Graph* graph, int s, int d);
 
 void removeEdge(struct Graph* graph, int s, int d);
