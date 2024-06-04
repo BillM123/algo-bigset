@@ -214,7 +214,7 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
                     (*par)[curr_node->vertex-1].nextParent = tmp;
                     (*par)[curr_node->vertex-1].nextParent->parent = nodeNum;
                 }
-                if (*dist[curr_node->vertex - 1] == *dist[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
+                if (curr_node != NULL && (*dist)[curr_node->vertex - 1] == (*dist)[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
                     //break; // Exit the loop when we've reached the target node
                     QDestroy(queue);
                     return 1;
@@ -233,6 +233,7 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     int *dist = malloc(V * sizeof(int));
     struct parents *par = malloc(V*sizeof(struct parents));
     struct pairs *edgeArray = calloc(V*V,sizeof(struct pairs)); 
+    struct pairs mostUsedEdge;
 
     int sumOfSps = 0 ;
     int i;
@@ -267,9 +268,11 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     printf("\n(%d %d)\n",edgeArray[0].i,edgeArray[0].j);
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
+    mostUsedEdge = edgeArray[0];
+
     free(edgeArray);
     free(dist);
     free(par);
 
-    return edgeArray[0];
+    return mostUsedEdge;
 }

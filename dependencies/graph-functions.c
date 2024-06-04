@@ -73,21 +73,25 @@ struct node* addEdge(struct Graph* graph, int s, int d) {
 
 // Remove an edge
 void removeEdge(struct Graph* graph, int s, int d){
-  struct node *tmpPrev = graph->adjLists[s];
+  struct node *tmpPrev = graph->adjLists[s-1];
   struct node *tmpNext = tmpPrev->next;
 
-  //If there exists only one node, this is the only possible
-  //note we could be looking for
-  if(tmpNext == NULL){
+  //Note: If there exists only one node, this is 
+  //the only possible note we could be looking for
+  if(tmpPrev->vertex == d){
+    graph->adjLists[s]->next = tmpNext;
     free(tmpPrev);
     return;
   }
+  //printf("%d->", tmpPrev->vertex); fflush(stdout);
   //Note: Valid edge should be passed to function, 
   //      else expect a segfault
   while(tmpNext->vertex != d){ 
+    //printf("%d->", tmpNext->vertex); fflush(stdout);
     tmpPrev = tmpPrev->next;
     tmpNext = tmpNext->next;
   }
+  //printf("\n");
   tmpPrev->next = tmpNext->next;
   tmpNext->next = NULL;
   free(tmpNext);

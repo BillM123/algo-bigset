@@ -4,12 +4,11 @@
 #include "dependencies/include/datatypes.h"
 #include "dependencies/include/prototypes.h"
 
+void analyseGraph(struct Graph *graph, int numVertices);
 
 int main(int argc, char* argv[]) {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
-    struct pairs MostUsedEdge = {0};
-    struct GraphPair graphPair;
 
     FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
@@ -32,6 +31,7 @@ int main(int argc, char* argv[]) {
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
 
+    analyseGraph(graph, numVertices);
 
     for(int i =0; i < numVertices; i++){
         struct node *tmpPrev = graph->adjLists[i];
@@ -66,6 +66,10 @@ void analyseGraph(struct Graph *graph, int numVertices){
 
     while(1){
         MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
+
+        //debug
+        printf("Edge: %d<-->%d\n", MostUsedEdge.i, MostUsedEdge.j);
+        printGraph(graph);
 
         //Remove the most used edge in each iter
         removeEdge(graph, MostUsedEdge.i, MostUsedEdge.j);
