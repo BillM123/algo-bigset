@@ -41,10 +41,13 @@ int main(int argc, char* argv[]) {
         //Could tell us if graph is split into 2
         //Note: if graph is split, every element in dist != 0 belongs to first graph
         //      every element in dist == 0 belongs to second graph
-        //ret = pathSearch2(graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
-        //if(ret = 0){
-        //    
-        //}
+        int *dist = malloc(numVertices * sizeof(int));
+        struct parents *par = malloc(numVertices*sizeof(struct parents));
+        
+        int ret = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
+        if(ret == 1){
+            
+        }
     }
 
     for(int i =0; i < numVertices; i++){

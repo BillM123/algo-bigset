@@ -35,7 +35,7 @@ void nZeros(int **array,int n);
 
 void nZerosPairs(struct pairs **array,int n);
 
-void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V);
+int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, int Dest);
 
 struct pairs cpl_sp(struct Graph graph,int V,double *cpl);
 
