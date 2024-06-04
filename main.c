@@ -32,26 +32,6 @@ int main(int argc, char* argv[]) {
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
 
-    while(0){
-        MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
-
-        //Remove the most used edge in each iter
-        removeEdge(graph, MostUsedEdge.i, MostUsedEdge.j);
-        removeEdge(graph, MostUsedEdge.j, MostUsedEdge.i);
-
-        //Could tell us if graph is split into 2.
-        //Note: if graph is split, every element in dist != 0 belongs to first graph
-        //      every element in dist == 0 belongs to second graph
-        int *dist = malloc(numVertices * sizeof(int));
-        struct parents *par = malloc(numVertices*sizeof(struct parents));
-        
-        int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
-        if(isConnected == 0){
-            graphPair = splitGraph(graph, dist, numVertices);
-        }
-        free(dist);
-        free(par);
-    }
 
     for(int i =0; i < numVertices; i++){
         struct node *tmpPrev = graph->adjLists[i];
@@ -68,4 +48,39 @@ int main(int argc, char* argv[]) {
     free(graph);
     return 0;
     
+}
+
+void analyseGraph(struct Graph *graph, int numVertices){
+    struct pairs MostUsedEdge = {0};
+    struct GraphPair graphPair;
+    double cpl = 0;
+    //Note: if graph is split, every element in dist != 0 belongs to first graph
+    //      every element in dist == 0 belongs to second graph
+    int *dist = malloc(numVertices * sizeof(int));
+    struct parents *par = malloc(numVertices*sizeof(struct parents));
+
+    //there is no graph for a single vertes
+    if(numVertices == 1){
+        return;
+    }
+
+    while(1){
+        MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
+
+        //Remove the most used edge in each iter
+        removeEdge(graph, MostUsedEdge.i, MostUsedEdge.j);
+        removeEdge(graph, MostUsedEdge.j, MostUsedEdge.i);
+
+        //Could tell us if graph is split into 2. Assumes dist gets init'd in pathSearch func.
+        int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
+
+        if(isConnected == 0){
+            graphPair = splitGraph(graph, dist, numVertices);
+            free(dist);
+            free(par);
+            analyseGraph(graphPair.biggerGraph, graphPair.biggerGraph->numVertices);
+            analyseGraph(graphPair.smallerGraph, graphPair.smallerGraph->numVertices);
+            return;
+        }
+    }
 }
