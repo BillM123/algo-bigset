@@ -8,6 +8,8 @@ struct Graph* createAGraph(int vertices);
 
 struct node* addEdge(struct Graph* graph, int s, int d);
 
+void removeEdge(struct Graph* graph, int s, int d);
+
 void printGraph(struct Graph* graph);
 
 //function prototypes for fifo
@@ -35,7 +37,7 @@ void nZerosPairs(struct pairs **array,int n);
 
 void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V);
 
-void cpl_sp(struct Graph graph,int V,double *cpl);
+struct pairs cpl_sp(struct Graph graph,int V,double *cpl);
 
 void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V);
 

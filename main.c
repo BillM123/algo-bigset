@@ -8,7 +8,8 @@
 int main(int argc, char* argv[]) {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
-    
+    struct pairs MostUsedEdge = {0};
+
     FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
         printf("Error opening file\n");
@@ -18,7 +19,7 @@ int main(int argc, char* argv[]) {
     fscanf(file, "%d\n", &numVertices);
     struct Graph *graph = createAGraph(numVertices);
 
-   while (fscanf(file, "%d %d\n", &num1, &num2) == 2) {
+    while (fscanf(file, "%d %d\n", &num1, &num2) == 2) {
         addEdge(graph, num1, num2);
         addEdge(graph, num2, num1);
     }
@@ -29,6 +30,22 @@ int main(int argc, char* argv[]) {
     double cpl;
     cpl_sp(*graph,numVertices,&cpl);
     printf("The CPL is: %lf\n", cpl);
+
+    while(0){
+        MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
+
+        //Remove the most used edge in each iter
+        removeEdge(graph, MostUsedEdge.i, MostUsedEdge.j);
+        removeEdge(graph, MostUsedEdge.j, MostUsedEdge.i);
+
+        //Could tell us if graph is split into 2
+        //Note: if graph is split, every element in dist != 0 belongs to first graph
+        //      every element in dist == 0 belongs to second graph
+        //ret = pathSearch2(graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
+        //if(ret = 0){
+        //    
+        //}
+    }
 
     for(int i =0; i < numVertices; i++){
         struct node *tmpPrev = graph->adjLists[i];

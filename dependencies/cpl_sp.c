@@ -180,7 +180,7 @@ void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V){
 }
 
 
-void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V){
+void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V/*, int Dest*/){
     int nodeNum ;
     
     struct node *curr_node;
@@ -214,8 +214,17 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V){
                     (*par)[curr_node->vertex-1].nextParent = tmp;
                     (*par)[curr_node->vertex-1].nextParent->parent = nodeNum;
                 }
+                //if (*dist[curr_node->vertex - 1] == *dist[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
+                //    break; // Exit the loop when we've reached the target node
+                //}
+
                 curr_node = curr_node->next;
             }  
+            //if (curr_node != NULL && curr_node->vertex == Dest) {
+            //    break; // If this activates, Dest was found priviously
+            //}
+            //Leaving them commented because I dont know how much time it will add to the execution,
+            //MIght be worth reimplementing a stripped-down vesion of the function just to find Dest
         }   
     }
 
@@ -223,7 +232,7 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V){
 
 }
 
-void cpl_sp(struct Graph graph,int V,double *cpl){
+struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     int *dist = malloc(V * sizeof(int));
     struct parents *par = malloc(V*sizeof(struct parents));
     struct pairs *edgeArray = calloc(V*V,sizeof(struct pairs)); 
@@ -234,12 +243,16 @@ void cpl_sp(struct Graph graph,int V,double *cpl){
     par[0].parent = -1;
 
     for(i=1; i<=V; i++){
-        printf("\n%d\n",i);
+        //printf("\n%d\n",i);
         pathSearch(graph,&dist,&par,i,V);
         nZeros(&dist,i);
         sumOfSps += sum(dist,V);
 
         CountTotalEdges(&edgeArray,par,i,V);
+        //for (int j = i+1; j <= V; j++){
+        //    countEdgesPath(&edgeArray, par, i, j);
+        //} Commented code makes CountTotalEdges obsolete
+        
 
         struct parents *temp_prev, *temp_next ;
 
@@ -259,4 +272,6 @@ void cpl_sp(struct Graph graph,int V,double *cpl){
     free(edgeArray);
     free(dist);
     free(par);
+
+    return edgeArray[0];
 }
