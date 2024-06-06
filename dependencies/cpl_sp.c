@@ -265,7 +265,6 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
         }
     }
     mergeSortPairs(edgeArray,(V*V));
-    printf("\n(%d %d)\n",edgeArray[0].i,edgeArray[0].j);
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
     mostUsedEdge = edgeArray[0];

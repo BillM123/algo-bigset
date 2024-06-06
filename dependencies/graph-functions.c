@@ -31,25 +31,33 @@ struct Graph* createAGraph(int vertices) {
 
 // Split graph
 struct GraphPair splitGraph(struct Graph *graph, int *dist, int numVertices){
-  struct Graph *graph1 = createAGraph(numVertices);
-  struct Graph *graph2 = createAGraph(numVertices);
+  struct Graph *graph1 ;
+  struct Graph *graph2 ;
   struct GraphPair graphPair;
 
-  graph1->numVertices = 0;
-  graph2->numVertices = 0;
+  int newOrder1[numVertices] ;
+  int numVertices1 = 0;
+
+  int newOrder2[numVertices] ;
+  int numVertices2 = 0;
 
   for(int i = 0; i < numVertices; i++){
     if (dist[i] != 0){
-      graph1->adjLists[graph1->numVertices] = graph->adjLists[i];
-      graph1->numVertices++;
+      newOrder1[numVertices1] = i+1;
+      numVertices1++;
     }
     else{
-      graph2->adjLists[graph2->numVertices] = graph->adjLists[i];
-      graph2->numVertices++;
+      newOrder2[numVertices2] = i+1;
+      numVertices2++;
     }
   }
-  graph1->adjLists = realloc(graph1->adjLists, graph1->numVertices * sizeof(struct node*));
-  graph2->adjLists = realloc(graph2->adjLists, graph2->numVertices * sizeof(struct node*));
+
+  graph1 = reorderGraph(graph,newOrder1,numVertices1);
+  graph2 = reorderGraph(graph,newOrder2,numVertices2);
+
+  graph1->numVertices = numVertices1;
+  graph2->numVertices = numVertices2;
+  
 
   if(graph1->numVertices >= graph2->numVertices){
     graphPair.biggerGraph = graph1;
@@ -95,6 +103,30 @@ void removeEdge(struct Graph* graph, int s, int d){
   tmpPrev->next = tmpNext->next;
   //tmpNext->next = NULL;
   free(tmpNext);
+}
+
+
+struct Graph* reorderGraph(struct Graph* graph, int newOrder[],int numVertices) {
+    struct Graph* newGraph = createAGraph(numVertices);
+
+    for (int i = 0; i < numVertices; i++) {
+        int newIdx = newOrder[i];
+        struct node* temp = graph->adjLists[newIdx-1];
+
+        while (temp) {
+            int newDestIdx = -1;
+            for (int j = 0; j < numVertices; j++) {
+                if (newOrder[j] == temp->vertex) {
+                    newDestIdx = j;
+                    break;
+                }
+            }
+            addEdge(newGraph, i+1, newDestIdx+1);
+            temp = temp->next;
+        }
+    }
+
+    return newGraph;
 }
 
 // Print the graph

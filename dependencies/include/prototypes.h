@@ -14,6 +14,8 @@ void removeEdge(struct Graph* graph, int s, int d);
 
 void printGraph(struct Graph* graph);
 
+struct Graph* reorderGraph(struct Graph* graph, int newOrder[],int numVertices);
+
 //function prototypes for fifo
 struct Queue* QInit();
 
