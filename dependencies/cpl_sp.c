@@ -153,16 +153,14 @@ void countEdgesPath(struct pairs **edgeArray,struct parents *par,int S,int D){
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1].numOfsps++;
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1].i = curr_parent.parent;
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1].j = curr_node;
-            //printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
-            //((*edgeArray)+curr_node-1)[curr_parent.parent-1]++;
+            
             curr_node = curr_parent.parent;
             curr_parent = par[curr_node-1];
         }
+        
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1].numOfsps++;
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1].i = curr_parent.parent;
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1].j = curr_node;
-        //printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
-        //((*edgeArray)+curr_node-1)[curr_parent.parent-1]++;
 
         if(initialParent.nextParent == NULL){
             break;
@@ -215,7 +213,7 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
                     (*par)[curr_node->vertex-1].nextParent->parent = nodeNum;
                 }
                 if (curr_node != NULL && (*dist)[curr_node->vertex - 1] == (*dist)[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
-                    //break; // Exit the loop when we've reached the target node
+                    // Return if we've reached the target node
                     QDestroy(queue);
                     return 1;
                 }
@@ -241,7 +239,6 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     par[0].parent = -1;
 
     for(i=1; i<=V; i++){
-        //printf("\n%d\n",i);
         //Assumes there is no vertex 0
         pathSearch(graph,&dist,&par,i,V, 0);
         nZeros(&dist,i);
@@ -250,7 +247,7 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
         CountTotalEdges(&edgeArray,par,i,V);
         //for (int j = i+1; j <= V; j++){
         //    countEdgesPath(&edgeArray, par, i, j);
-        //} Commented code makes CountTotalEdges obsolete
+        //} //Commented code makes CountTotalEdges obsolete
         
 
         struct parents *temp_prev, *temp_next ;

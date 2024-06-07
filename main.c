@@ -54,30 +54,24 @@ void analyseGraph(struct Graph *graph, int numVertices){
     }
 
     while(1){
+        //Analyse current graph
         MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
         printf("\n(%d %d)\n",MostUsedEdge.i,MostUsedEdge.j);
         printf("The CPL is: %lf\n", cpl);
         struct parents *temp_prev, *temp_next ;
 
-        //debug
-        //printf("Edge: %d<-->%d\n", MostUsedEdge.i, MostUsedEdge.j);
-        //printGraph(graph);
-
         //Remove the most used edge in each iter
         removeEdge(graph, MostUsedEdge.i, MostUsedEdge.j);
         removeEdge(graph, MostUsedEdge.j, MostUsedEdge.i);
 
-        //debug
-        //printGraph(graph);
-
         //Could tell us if graph is split into 2. Assumes dist gets init'd in pathSearch func.
         int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
         dist[MostUsedEdge.i-1] = -1;
+
+        //free parents
         for(int k=0; k<numVertices; k++){
             temp_prev = par[k].nextParent;
-        //    printf("Check %d\n", k);
             while(temp_prev != NULL){
-        //        printf("Check?:---\n%d\n%d\n-----\n", temp_prev->parent, temp_prev->nextParent->parent);
                 temp_next = temp_prev->nextParent;
                 free(temp_prev);
                 temp_prev=temp_next;
@@ -85,15 +79,13 @@ void analyseGraph(struct Graph *graph, int numVertices){
             par[k].nextParent = NULL;
         }
 
+        //enter if graph got split
         if(isConnected == 0){
             printf("\nThe graph split\n");
             graphPair = splitGraph(graph, dist, numVertices);
+            
             free(dist);
-
-            
-            
             free(par);
-            
             freeGraph(graph);
 
             printf("\nThe bigger graph is running...\n");

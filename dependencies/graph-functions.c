@@ -8,6 +8,7 @@
 // Create a node
 struct node* createNode(int v) {
   struct node* newNode = malloc(sizeof(struct node));
+
   newNode->vertex = v;
   newNode->next = NULL;
   return newNode;
@@ -58,7 +59,6 @@ struct GraphPair splitGraph(struct Graph *graph, int *dist, int numVertices){
   graph1->numVertices = numVertices1;
   graph2->numVertices = numVertices2;
   
-
   if(graph1->numVertices >= graph2->numVertices){
     graphPair.biggerGraph = graph1;
     graphPair.smallerGraph = graph2;
@@ -70,10 +70,10 @@ struct GraphPair splitGraph(struct Graph *graph, int *dist, int numVertices){
   return graphPair;
 }
 
-// Add edge
+// Add edge from s to d
 struct node* addEdge(struct Graph* graph, int s, int d) {
-  // Add edge from s to d
   struct node* newNode = createNode(d);
+
   newNode->next = graph->adjLists[s-1];
   graph->adjLists[s-1] = newNode;
   return newNode;
@@ -91,17 +91,15 @@ void removeEdge(struct Graph* graph, int s, int d){
     free(tmpPrev);
     return;
   }
-  //printf("%d->", tmpPrev->vertex); fflush(stdout);
+  
   //Note: Valid edge should be passed to function, 
   //      else expect a segfault
   while(tmpNext->vertex != d){ 
-    //printf("%d->", tmpNext->vertex); fflush(stdout);
     tmpPrev = tmpPrev->next;
     tmpNext = tmpNext->next;
   }
-  //printf("\n");
+  
   tmpPrev->next = tmpNext->next;
-  //tmpNext->next = NULL;
   free(tmpNext);
 }
 
