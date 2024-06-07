@@ -41,9 +41,15 @@ void analyseGraph(struct Graph *graph, int numVertices){
     //      every element in dist == 0 belongs to second graph
     int *dist = malloc(numVertices * sizeof(int));
     struct parents *par = malloc(numVertices*sizeof(struct parents));
+    for(int i = 0; i < numVertices; i++){
+        par[i].nextParent = NULL;
+    }
 
     //there is no graph for a single vertes
     if(numVertices == 1){
+        free(dist);
+        free(par);
+        freeGraph(graph);
         return;
     }
 
@@ -51,6 +57,7 @@ void analyseGraph(struct Graph *graph, int numVertices){
         MostUsedEdge = cpl_sp(*graph, numVertices, &cpl);
         printf("\n(%d %d)\n",MostUsedEdge.i,MostUsedEdge.j);
         printf("The CPL is: %lf\n", cpl);
+        struct parents *temp_prev, *temp_next ;
 
         //debug
         //printf("Edge: %d<-->%d\n", MostUsedEdge.i, MostUsedEdge.j);
@@ -66,33 +73,35 @@ void analyseGraph(struct Graph *graph, int numVertices){
         //Could tell us if graph is split into 2. Assumes dist gets init'd in pathSearch func.
         int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
         dist[MostUsedEdge.i-1] = -1;
+        //for(int k=0; k<numVertices; k++){
+        //    temp_prev = par[k].nextParent;
+        //    printf("Check %d\n", k);
+        //    while(temp_prev != NULL){
+        //        printf("Check?:---\n%d\n%d\n-----\n", temp_prev->parent, temp_prev->nextParent->parent);
+        //        temp_next = temp_prev->nextParent;
+        //        free(temp_prev);
+        //        temp_prev=temp_next;
+        //    }
+        //}
 
         if(isConnected == 0){
             printf("\nThe graph split\n");
             graphPair = splitGraph(graph, dist, numVertices);
             free(dist);
+
+            
+            
             free(par);
-            for(int i =0; i < numVertices; i++){
-                struct node *tmpPrev = graph->adjLists[i];
-                struct node *tmpNext;
-
-                while (tmpPrev != NULL) {
-                    tmpNext = tmpPrev->next;
-                    free(tmpPrev);
-                    tmpPrev = tmpNext;
-                }
-
-            }
-            free(graph->adjLists);
-            free(graph);
+            
+            freeGraph(graph);
 
             printf("\nThe bigger graph is running...\n");
             analyseGraph(graphPair.biggerGraph, graphPair.biggerGraph->numVertices);
-            printf("\nThe bigger graph finished running...\n");
+            printf("\nThe bigger graph finished running.\n");
 
             printf("\nThe smaller graph is running...\n");
             analyseGraph(graphPair.smallerGraph, graphPair.smallerGraph->numVertices);
-            printf("\nThe smaller graph finished running...\n");
+            printf("\nThe smaller graph finished running.\n");
             return;
         }
         printf("\nNot split\n");

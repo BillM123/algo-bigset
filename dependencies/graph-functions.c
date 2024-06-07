@@ -142,3 +142,19 @@ void printGraph(struct Graph* graph) {
     printf("\n");
   }
 }
+
+void freeGraph(struct Graph *graph){
+  for(int i =0; i < graph->numVertices; i++){
+    struct node *tmpPrev = graph->adjLists[i];
+    struct node *tmpNext;
+
+    while (tmpPrev != NULL) {
+        tmpNext = tmpPrev->next;
+        free(tmpPrev);
+        tmpPrev = tmpNext;
+    }
+
+  }
+  free(graph->adjLists);
+  free(graph);
+}

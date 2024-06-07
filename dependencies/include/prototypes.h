@@ -16,6 +16,8 @@ void printGraph(struct Graph* graph);
 
 struct Graph* reorderGraph(struct Graph* graph, int newOrder[],int numVertices);
 
+void freeGraph(struct Graph *graph);
+
 //function prototypes for fifo
 struct Queue* QInit();
 
