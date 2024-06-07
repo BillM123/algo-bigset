@@ -28,7 +28,7 @@ void QDestroy(struct Queue *queue){
     }
     free(queue);
 }
-void insert(struct Queue *queue, int data){
+void QInsert(struct Queue *queue, int data){
     struct QNode *newNode = malloc(sizeof(struct QNode));
 
     newNode->data = data;

@@ -22,6 +22,11 @@ struct Graph {
   struct node** adjLists;
 };
 
+struct GraphPair {
+  struct Graph *biggerGraph;
+  struct Graph *smallerGraph;
+};
+
 struct QNode {
   int data;
   struct QNode* next;

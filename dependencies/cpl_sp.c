@@ -153,16 +153,14 @@ void countEdgesPath(struct pairs **edgeArray,struct parents *par,int S,int D){
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1].numOfsps++;
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1].i = curr_parent.parent;
             ((*edgeArray)+curr_parent.parent-1)[curr_node-1].j = curr_node;
-            //printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
-            //((*edgeArray)+curr_node-1)[curr_parent.parent-1]++;
+            
             curr_node = curr_parent.parent;
             curr_parent = par[curr_node-1];
         }
+        
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1].numOfsps++;
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1].i = curr_parent.parent;
         ((*edgeArray)+curr_parent.parent-1)[curr_node-1].j = curr_node;
-        //printf("(%d %d) +1\n",(curr_parent.parent-1),curr_node-1);
-        //((*edgeArray)+curr_node-1)[curr_parent.parent-1]++;
 
         if(initialParent.nextParent == NULL){
             break;
@@ -180,7 +178,7 @@ void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V){
 }
 
 
-void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V/*, int Dest*/){
+int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, int Dest){
     int nodeNum ;
     
     struct node *curr_node;
@@ -191,7 +189,7 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V/*
     }
 
     struct Queue *queue = QInit();
-    insert(queue,S);
+    QInsert(queue,S);
     (*par)[S-1].parent = S;
     (*par)[S-1].nextParent = NULL;
 
@@ -202,7 +200,7 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V/*
             
             while(curr_node != NULL){
                 if((*dist)[curr_node->vertex-1] == 0 && (curr_node->vertex) != S){
-                    insert(queue,curr_node->vertex);
+                    QInsert(queue,curr_node->vertex);
                     (*dist)[curr_node->vertex - 1] = (*dist)[nodeNum-1] + 1;
 
                     (*par)[curr_node->vertex-1].parent = nodeNum;
@@ -214,28 +212,26 @@ void pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V/*
                     (*par)[curr_node->vertex-1].nextParent = tmp;
                     (*par)[curr_node->vertex-1].nextParent->parent = nodeNum;
                 }
-                //if (*dist[curr_node->vertex - 1] == *dist[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
-                //    break; // Exit the loop when we've reached the target node
-                //}
+                if (curr_node != NULL && (*dist)[curr_node->vertex - 1] == (*dist)[nodeNum - 1] + 1 && curr_node->vertex == Dest) {
+                    // Return if we've reached the target node
+                    QDestroy(queue);
+                    return 1;
+                }
 
                 curr_node = curr_node->next;
-            }  
-            //if (curr_node != NULL && curr_node->vertex == Dest) {
-            //    break; // If this activates, Dest was found priviously
-            //}
-            //Leaving them commented because I dont know how much time it will add to the execution,
-            //MIght be worth reimplementing a stripped-down vesion of the function just to find Dest
+            } 
         }   
     }
 
     QDestroy(queue);
-
+    return 0;
 }
 
 struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     int *dist = malloc(V * sizeof(int));
     struct parents *par = malloc(V*sizeof(struct parents));
     struct pairs *edgeArray = calloc(V*V,sizeof(struct pairs)); 
+    struct pairs mostUsedEdge;
 
     int sumOfSps = 0 ;
     int i;
@@ -243,15 +239,15 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     par[0].parent = -1;
 
     for(i=1; i<=V; i++){
-        //printf("\n%d\n",i);
-        pathSearch(graph,&dist,&par,i,V);
+        //Assumes there is no vertex 0
+        pathSearch(graph,&dist,&par,i,V, 0);
         nZeros(&dist,i);
         sumOfSps += sum(dist,V);
 
         CountTotalEdges(&edgeArray,par,i,V);
         //for (int j = i+1; j <= V; j++){
         //    countEdgesPath(&edgeArray, par, i, j);
-        //} Commented code makes CountTotalEdges obsolete
+        //} //Commented code makes CountTotalEdges obsolete
         
 
         struct parents *temp_prev, *temp_next ;
@@ -266,12 +262,13 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
         }
     }
     mergeSortPairs(edgeArray,(V*V));
-    printf("\n(%d %d)\n",edgeArray[0].i,edgeArray[0].j);
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
+
+    mostUsedEdge = edgeArray[0];
 
     free(edgeArray);
     free(dist);
     free(par);
 
-    return edgeArray[0];
+    return mostUsedEdge;
 }
