@@ -73,16 +73,17 @@ void analyseGraph(struct Graph *graph, int numVertices){
         //Could tell us if graph is split into 2. Assumes dist gets init'd in pathSearch func.
         int isConnected = pathSearch(*graph,&dist,&par,MostUsedEdge.i,numVertices, MostUsedEdge.j);
         dist[MostUsedEdge.i-1] = -1;
-        //for(int k=0; k<numVertices; k++){
-        //    temp_prev = par[k].nextParent;
+        for(int k=0; k<numVertices; k++){
+            temp_prev = par[k].nextParent;
         //    printf("Check %d\n", k);
-        //    while(temp_prev != NULL){
+            while(temp_prev != NULL){
         //        printf("Check?:---\n%d\n%d\n-----\n", temp_prev->parent, temp_prev->nextParent->parent);
-        //        temp_next = temp_prev->nextParent;
-        //        free(temp_prev);
-        //        temp_prev=temp_next;
-        //    }
-        //}
+                temp_next = temp_prev->nextParent;
+                free(temp_prev);
+                temp_prev=temp_next;
+            }
+            par[k].nextParent = NULL;
+        }
 
         if(isConnected == 0){
             printf("\nThe graph split\n");
