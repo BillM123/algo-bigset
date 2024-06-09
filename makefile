@@ -16,7 +16,7 @@ format: format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 test: main edgelists/karate-formatted.edgelist edgelists/grid-formatted.edgelist edgelists/Erdos-formatted.edgelist
-	@echo -e "\033[1;33mNote: \033[0mFor any custom test, try formatting it with the command:"
+	@echo -e "\n\033[1;33mNote: \033[0mFor any custom test, try formatting it with the command:"
 	@echo -e "\033[1;34mformat \033[0;33m\"path/to/edgelist\" \"path/to/output\" \033[0;37mNumberOfVertices \033[0m"
 	@echo -e "or by changing the file so the numberOfvertices is in line 1, \"end\" on the\nfinal line, and the vertcices in each line are separated by a space"
 	@echo -e "\n\033[1;33mStarting test 1...\033[0m"
