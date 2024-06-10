@@ -32,7 +32,15 @@ edgelists/grid-formatted.edgelist: edgelists/grid.edgelist format
 edgelists/Erdos-formatted.edgelist: edgelists/Erdos.edgelist
 	./format edgelists/Erdos.edgelist edgelists/Erdos-formatted.edgelist
 
-
+test1: main edgelists/karate-formatted.edgelist
+	@echo -e "\n\033[1;33mStarting test 1...\033[0m"
+	time ./main edgelists/karate-formatted.edgelist > output/karate.out
+test2: main edgelists/grid-formatted.edgelist
+	@echo -e "\n\033[1;33mStarting test 2...\033[0m"
+	time ./main edgelists/grid-formatted.edgelist > output/grid.out
+test3: main	edgelists/Erdos-formatted.edgelist
+	@echo -e "\n\033[1;33mStarting test 3...\033[0m"
+	time ./main edgelists/Erdos-formatted.edgelist > output/Erdos.out
 
 .PHONY:
 exec: main
