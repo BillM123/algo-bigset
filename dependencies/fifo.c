@@ -11,6 +11,7 @@ struct Queue* QInit(){
     struct QNode *sentinel = malloc(sizeof(struct QNode));
 
     queue->head = sentinel;
+    queue->tail = sentinel;
     sentinel->next = NULL;
 
     return queue;
@@ -32,22 +33,36 @@ void QInsert(struct Queue *queue, int data){
     struct QNode *newNode = malloc(sizeof(struct QNode));
 
     newNode->data = data;
-    newNode->next = queue->head->next;
-    queue->head->next = newNode;
+    //newNode->next = queue->head->next;
+    newNode->next = NULL;
+    //queue->head->next = newNode;
+    queue->tail->next = newNode;
+    queue->tail = newNode;
     queue->size++;
 }
+//int QDelete(struct Queue *queue){
+//    struct QNode *curr;
+//    struct QNode *prev;
+//    int data;
+//
+//    curr = queue->head;
+//    while(curr->next != NULL){
+//        prev = curr;
+//        curr = prev->next; 
+//    }
+//    data = curr->data;
+//    free(curr);
+//    prev->next = NULL;
+//    return data;
+//}
 int QDelete(struct Queue *queue){
-    struct QNode *curr;
-    struct QNode *prev;
-    int data;
+    struct QNode *tmp = queue->head->next;
 
-    curr = queue->head;
-    while(curr->next != NULL){
-        prev = curr;
-        curr = prev->next; 
+    if(tmp != NULL){
+        queue->head->next = tmp->next;
+        int data = tmp->data;
+        free(tmp);
+        return data;
     }
-    data = curr->data;
-    free(curr);
-    prev->next = NULL;
-    return data;
+    return -1;
 }
