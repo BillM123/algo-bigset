@@ -60,6 +60,9 @@ int QDelete(struct Queue *queue){
 
     if(tmp != NULL){
         queue->head->next = tmp->next;
+        if(tmp == queue->tail){
+            queue->tail = queue->head;
+        }
         int data = tmp->data;
         free(tmp);
         return data;
