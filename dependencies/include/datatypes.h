@@ -34,6 +34,7 @@ struct QNode {
 
 struct Queue {
   struct QNode* head;
+  struct QNode* tail;
   int size;
 };
 #endif
