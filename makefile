@@ -1,15 +1,15 @@
-CC=clang
+CC=gcc
 CFLAGS=-Wall -g
 
 main: main.o graph-functions.o fifo.o cpl_sp.o
-	$(CC) $(CFLAGS) -o $@ $^ -fsanitize=address
+	$(CC) $(CFLAGS) -fopenmp -o $@ $^
 	@echo -e "\nTo test the program, try running \033[1;34mmake \033[0;37mtest\033[0m"
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
 graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
+	$(CC) $(CFLAGS) -c -fopenmp -o $@ $<
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
 format: format.c

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 #include "dependencies/include/datatypes.h"
 #include "dependencies/include/prototypes.h"
 
