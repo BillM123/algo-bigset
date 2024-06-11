@@ -1,14 +1,14 @@
-CC=clang
+CC=gcc
 CFLAGS=-Wall -g
 
 main: main.o graph-functions.o fifo.o cpl_sp.o
-	$(CC) $(CFLAGS) -o $@ $^ -fsanitize=address
+	$(CC) $(CFLAGS) -fopenmp -o $@ $^
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) $(CFLAGS) -c -fopenmp -o $@ $<
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 format: format.c

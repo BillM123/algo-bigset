@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <omp.h>
 #include "dependencies/include/datatypes.h"
 #include "dependencies/include/prototypes.h"
 
 
 int main(int argc, char* argv[]) {
-    int numVertices = 0, numEdges;
+    int numVertices = 0;
     int num1 = 0, num2 = 0;
-    
+
     FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
         printf("Error opening file\n");

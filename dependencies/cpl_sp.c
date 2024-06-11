@@ -1,71 +1,57 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <omp.h>
+#include <time.h>
 #include "include/datatypes.h"
 #include "include/prototypes.h"
+#define TASK_SIZE 100
 
-void mergePairs(struct pairs arr[], int l, int m, int r)
+// Utility function to find minimum of two integers
+int min(int x, int y) { return (x<y)? x :y; }
+ 
+ 
+void mergeSortAux(struct pairs *X, int n,struct pairs *tmp)
 {
-    int i, j, k;
-    int n1 = m - l + 1;
-    int n2 = r - m;
+   int i = 0;
+   int j = n/2;
+   int ti = 0;
 
-    // Create temp arrays
-    struct pairs L[n1], R[n2];
+   while (i<n/2 && j<n) {
+      if (X[i].numOfsps > X[j].numOfsps) {
+         tmp[ti] = X[i];
+         ti++; i++;
+      } else {
+         tmp[ti] = X[j];
+         ti++; j++;
+      }
+   }
+   while (i<n/2) { /* finish up lower half */
+      tmp[ti] = X[i];
+      ti++; i++;
+   }
+   while (j<n) { /* finish up upper half */
+      tmp[ti] = X[j];
+      ti++; j++;
+   }
+   memcpy(X, tmp, n*sizeof(struct pairs));
+} 
 
-    // Copy data to temp arrays L[] and R[]
-    for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
-    for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
+void mergeSort(struct pairs *X, int n, struct pairs *tmp)
+{
+   if (n < 2) return;
 
-    // Merge the temp arrays back into arr[l..r
-    i = 0;
-    j = 0;
-    k = l;
-    while (i < n1 && j < n2) {
-        if (L[i].numOfsps >= R[j].numOfsps) {
-            arr[k] = L[i];
-            i++;
-        }
-        else {
-            arr[k] = R[j];
-            j++;
-        }
-        k++;
-    }
+   #pragma omp task shared(X) if (n > TASK_SIZE)
+   mergeSort(X, n/2, tmp);
 
-    // Copy the remaining elements of L[],
-    // if there are any
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
-    }
+   #pragma omp task shared(X) if (n > TASK_SIZE)
+   mergeSort(X+(n/2), n-(n/2), tmp + n/2);
 
-    // Copy the remaining elements of R[],
-    // if there are any
-    while (j < n2) {
-        arr[k] = R[j];
-        j++;
-        k++;
-    }
+   #pragma omp taskwait
+   mergeSortAux(X, n, tmp);
 }
 
-// l is for left index and r is right index of the
-// sub-array of arr to be sorted
-void mergeSortPairs(struct pairs arr[], int l, int r)
-{
-    if (l < r) {
-        int m = l + (r - l) / 2;
-
-        // Sort first and second halves
-        mergeSortPairs(arr, l, m);
-        mergeSortPairs(arr, m + 1, r);
-
-        mergePairs(arr, l, m, r);
-    }
-}
+ 
 
 //https://www.geeksforgeeks.org/binomial-coefficient-dp-9/
 // Returns value of Binomial Coefficient C(n, k)
@@ -172,17 +158,46 @@ void cpl_sp(struct Graph graph,int V,double *cpl){
         nZerosPairs(&numOfSPsArray,i);
 
         sumOfSps += sum(dist,V);
-        mergeSortPairs(numOfSPsArray,0,V-1);
 
-        if(numOfSPsArray[0].numOfsps >= mostSPs){
-            mostSPs = numOfSPsArray[0].numOfsps;
-            mostSPsPair[0] = numOfSPsArray[0].i;
-            mostSPsPair[1] = numOfSPsArray[0].j;
+        CountTotalEdges(&edgeArray,par,i,V);
+        //for (int j = i+1; j <= V; j++){
+        //    countEdgesPath(&edgeArray, par, i, j);
+        //} Commented code makes CountTotalEdges obsolete
+        
+
+        struct parents *temp_prev, *temp_next ;
+
+        for(int k=0; k<V; k++){
+            temp_prev = par[k].nextParent;
+            while(temp_prev != NULL){
+                temp_next = temp_prev->nextParent;
+                free(temp_prev);
+                temp_prev=temp_next;
+            }
         }
     }
+   //clock_t start, end;
+   //double cpu_time_used;
+   //start = clock();
+   struct pairs *tmp = malloc(V*V * sizeof(struct pairs));
+
+    double begin = omp_get_wtime();
+    #pragma omp parallel
+    {
+        #pragma omp single
+        mergeSort(edgeArray,V*V,tmp);
+    }
+    double end = omp_get_wtime();
+    //end = clock();
+    //cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("Time taken: %f",end-begin);
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
     printf("$$$ %d ### (%d,%d)\n", mostSPs, mostSPsPair[0], mostSPsPair[1]);
 
     free(dist);
+    free(par);
+    free(tmp);
+
+    return mostUsedEdge;
 }

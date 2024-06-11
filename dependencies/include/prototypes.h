@@ -21,9 +21,9 @@ int QDelete(struct Queue *queue);
 
 //Function prototypes cpl_sp
 
-void mergePairs(struct pairs arr[], int l, int m, int r);
+void mergeSortAux(struct pairs *X, int n,struct pairs *tmp);
 
-void mergeSortPairs(struct pairs arr[], int l, int r);
+void mergeSort(struct pairs *X, int n, struct pairs *tmp);
 
 int binomialCoeff(int n, int k);
 
