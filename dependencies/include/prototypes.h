@@ -6,16 +6,24 @@ struct node* createNode(int v);
 
 struct Graph* createAGraph(int vertices);
 
+struct GraphPair splitGraph(struct Graph *graph, int *dist, int numVertices);
+
 struct node* addEdge(struct Graph* graph, int s, int d);
 
+void removeEdge(struct Graph* graph, int s, int d);
+
 void printGraph(struct Graph* graph);
+
+struct Graph* reorderGraph(struct Graph* graph, int newOrder[],int numVertices);
+
+void freeGraph(struct Graph *graph);
 
 //function prototypes for fifo
 struct Queue* QInit();
 
 void QDestroy(struct Queue *queue);
 
-void insert(struct Queue *queue, int data);
+void QInsert(struct Queue *queue, int data);
 
 int QDelete(struct Queue *queue);
 
@@ -33,8 +41,10 @@ void nZeros(int **array,int n);
 
 void nZerosPairs(struct pairs **array,int n);
 
-struct pairs *pathSearch(struct Graph graph,int **dist,int S,int V);
+int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, int Dest);
 
-void cpl_sp(struct Graph graph,int V,double *cpl);
+struct pairs cpl_sp(struct Graph graph,int V,double *cpl);
+
+void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V);
 
 #endif
