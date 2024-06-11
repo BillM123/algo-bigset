@@ -5,13 +5,13 @@ main: main.o graph-functions.o fifo.o cpl_sp.o
 	$(CC) $(CFLAGS) -fopenmp -o $@ $^
 	@echo -e "\nTo test the program, try running \033[1;34mmake \033[0;37mtest\033[0m"
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
+	$(CC) $(CFLAGS) -c -o $@ $< 
 graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
+	$(CC) $(CFLAGS) -c -o $@ $< 
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -fopenmp -o $@ $<
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
+	$(CC) $(CFLAGS) -c -o $@ $< 
 format: format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
