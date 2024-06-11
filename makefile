@@ -1,7 +1,9 @@
 CC=clang
 CFLAGS=-Wall -g
+OBJ_OPTS=-c -o $@ $< -fsanitize=address
+EX_OPTS=-o $@ $^ -fsanitize=address
 
-main: main.o graph-functions.o fifo.o cpl_sp.o
+main: main.o graph-functions.o fifo.o cpl_sp.o mergesort.o
 	$(CC) $(CFLAGS) -o $@ $^ -fsanitize=address
 	@echo -e "\nTo test the program, try running \033[1;34mmake \033[0;37mtest\033[0m"
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
@@ -12,6 +14,9 @@ cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/in
 	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
 	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
+mergesort.o: dependencies/mergesort.c dependencies/include/datatypes.h dependencies/include/prototypes.h
+	$(CC) $(CFLAGS) -c -o $@ $< -fsanitize=address
+
 format: format.c
 	$(CC) $(CFLAGS) -o $@ $<
 

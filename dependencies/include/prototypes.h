@@ -47,4 +47,14 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl);
 
 void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V);
 
+// Function prototypes for experimental mergesort implementation
+
+void merge(struct pairs arr[], struct pairs aux[], int lo, int mid, int hi);
+
+void insertionSort(struct pairs arr[], int lo, int hi);
+
+void mergeSort(struct pairs arr[], struct pairs aux[], int lo, int hi);
+
+void sort(struct pairs arr[], int n);
+
 #endif

@@ -261,7 +261,15 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
             }
         }
     }
+    sort(edgeArray, (V*V));
+    for (int i = 0; i < V; i++) {
+        printf("%d: %d (%d<-->%d)\n", i, edgeArray[i].numOfsps, edgeArray[i].i, edgeArray[i].j);
+    }
     mergeSortPairs(edgeArray,(V*V));
+    printf("\n\n");
+    for (int i = 0; i < V; i++) {
+        printf("%d: %d (%d<-->%d)\n", i, edgeArray[i].numOfsps, edgeArray[i].i, edgeArray[i].j);
+    }
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
     mostUsedEdge = edgeArray[0];
