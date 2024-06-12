@@ -7,3 +7,5 @@ cpl_sp.o
 format
 .DS_Store
 format.dSYM
+avg-cpl.py
+avg-cpl-cgpt.py
