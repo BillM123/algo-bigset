@@ -2,18 +2,18 @@ CC=gcc
 CFLAGS=-Wall -g
 
 main: main.o graph-functions.o fifo.o cpl_sp.o
-	$(CC) $(CFLAGS) -fopenmp -o $@ $^
+	$(CC) $(CFLAGS) -fopenmp -ofast $@ $^
 	@echo -e "\nTo test the program, try running \033[1;34mmake \033[0;37mtest\033[0m"
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< 
+	$(CC) $(CFLAGS) -c -ofast $@ $< 
 graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< 
+	$(CC) $(CFLAGS) -c -ofast $@ $< 
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -fopenmp -o $@ $<
+	$(CC) $(CFLAGS) -c -fopenmp -ofast $@ $<
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< 
+	$(CC) $(CFLAGS) -c -ofast $@ $< 
 format: dependencies/format.c
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -ofast $@ $<
 
 test: main edgelists/karate-formatted.edgelist edgelists/grid-formatted.edgelist edgelists/Erdos-formatted.edgelist
 	@echo -e "\n\033[1;33mNote: \033[0mFor any custom test, try formatting it with the command:"
@@ -40,8 +40,7 @@ test3: main	edgelists/Erdos-formatted.edgelist
 	time ./main edgelists/Erdos-formatted.edgelist > output/Erdos.out
 
 .PHONY:
-exec: main
-	./main edgelists/$(EDGELIST)-formatted.edgelist
+
 clean:
 	@rm main main.o graph-functions.o fifo.o cpl_sp.o
 clean_format:
