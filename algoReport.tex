@@ -40,7 +40,15 @@
    \vspace*{\stretch{2.0}}
 \end{titlepage}
 
-Εύρεση \selectlanguage{english}CPL\selectlanguage{greek}:\bigbreak
+\textbf{Τρόπος αποθήκευσης γράφων και δομές δεδομένων:}\bigbreak
+
+Για την αποθήκευση του γράφου χρησιμοποιούμε έναν πίνακα απο λίστες γειτνίασης. Κάθε θέση του πίνακα δηλαδή αντοιστιχεί σε έναν κόμβο του γράφου, και περιέχει μία απλά συνδεδεμένη λίστα, κάθε στοιχείο της οποίας περιέχει 
+έναν κόμβο με τον οποίο ο αρχικός συνδέεται. Γενικά οι λίστες γειτνίασης χρησιμοποιούνται για αλγορίθμους γράφων όπως \selectlanguage{english} Breadth First Search\selectlanguage{greek} που χρησημοποιήσαμε και στην άσκηση,
+και είναι πολύ αποδοτικές σε αραιούς γράφους, όπως αυτούς που δώθηκαν στα παραδείγματα.\break
+Άλλες δομές δεδομένων που χρησιμοποιήθηκαν στο πρόγραμμα είναι οι πίνακες, για να αποθηκεύσουμε για παράδειγμα την απόσταση καθώς και τις χρήσεις σε συντομότερα μονοπάτια για κάθε ακμή, και οι ούρες, που αποτελούν κομμάτι
+του \selectlanguage{english} Breadth First Search\selectlanguage{greek} αλγόριθμου.\bigbreak
+
+\textbf{Εύρεση \selectlanguage{english}CPL\selectlanguage{greek} ενός γράφου:}\bigbreak
 
 Για να βρούμε το \selectlanguage{english}CPL\selectlanguage{greek} ενός γράφου χρησημοποιήσαμε\selectlanguage{english} Breadth First Search\selectlanguage{greek} ώστε να υπολογίσουμε όλα τα μήκοι των σύντομων μονοπάτιων μεταξύ όλων των κόμβων.Συγκεκριμένα υλοποιούμε μια συνάρτηση η οποία λαμβάνει ως \selectlanguage{english}input\selectlanguage{greek} το \selectlanguage{english}source node\selectlanguage{greek} και έχει ένα πίνακα που κρατάει τις αποστάσεις όλων των κόμβων από τον κόμβο \selectlanguage{english}source\selectlanguage{greek} μαζί με ένα πίνακα με τους γονείς κάθε κόμβου.Ο πίνακας γονιών θα χρησιποιηθεί αργότερα για το Β ερώτημα όπου θα εξηγήσουμε την χρήση του.Τελός η συνάρτηση αυτή επιστρέφει τους πίνακες αύτους ενώ αν της δωθεί συγκεκριμένος \selectlanguage{english}destination\selectlanguage{greek} κομβός τότε θα τρέχει μέχρι να βρεί το κόμβο αυτό επιστρέφοντας επιτυχία με 1 και αποτυχία με 0.\bigbreak
 
@@ -148,7 +156,7 @@ cpl = Sum of all cpls / binomial coefficient(number of nodes,2)
 \end{lstlisting}\bigbreak
 \selectlanguage{greek}
 
-Τέλος έξω απο την "λούπα" κάνουμε \selectlanguage{english}merge sort\selectlanguage{greek} το πίνακα \selectlanguage{english}edge array\selectlanguage{greek} και επιστρέφουμαι το πρώτο \selectlanguage{english}edge\selectlanguage{greek} του πίνακα το οποίο και θα αφαιρέσουμε.Το δύο προηγούμενα ερωτήματα τα εκτελεί η συνάρτηση \selectlanguage{english}cpl sp\selectlanguage{greek}.\pagebreak
+Τέλος έξω απο την επανάληψη κάνουμε \selectlanguage{english}merge sort\selectlanguage{greek} το πίνακα \selectlanguage{english}edge array\selectlanguage{greek} και επιστρέφουμαι το πρώτο \selectlanguage{english}edge\selectlanguage{greek} του πίνακα το οποίο και θα αφαιρέσουμε.Το δύο προηγούμενα ερωτήματα τα εκτελεί η συνάρτηση \selectlanguage{english}cpl sp\selectlanguage{greek}.\pagebreak
 
 \selectlanguage{english}
 \begin{lstlisting}
@@ -191,4 +199,48 @@ Eφόσον έχουμε εκτελέσει την συνάρτηση \selectlan
 
 Έπειτα για να ελένξουμε για συνοχή του γράφου εκτελούμε την \selectlanguage{english}pathSearch\selectlanguage{greek} με στόχο να βρούμε το κόμβο με τον οποίο κόπηκε η απευθείας σύνδεση.
 Εάν τον βρούμε θα επιστραφεί επιτυχία από την συνάρτηση και θα σημαίνει οτι ο γράφος παραμένει συνεκτικός αλλίως σε περίπτωση αποτυχίας θα σημαίνει οτι ο γράφος χωρίστηκε.
+\selectlanguage{greek}
+\textbf{Αφαίρεση της ακμής, έλεγχος συνεκτικότητας του γράφου:}\bigbreak
+
+Για την αφαίρεση της ακμής που ενώνει δύο κόμβους $i$, $j$, θα χρειασεί απλώς να αφαιρέσουμε τον κόμβο $j$ απο τη λίστα γειτνίασης του κόμβου $i$ και αντίστροφα.
+Θα χρειαστεί όμως, όταν αφαιρεθεί η ακμή, να ελέγξουμε άν ο γράφος είναι συνεκτικός, η αν έχει χωριστεί σε δύο διαφορετικές συνιστώσες.
+Όμως, άν ο γράφος έχει πράγματι χωριστεί, σημαίνει πως η ακμή που αφαιρέσαμε ήταν ο μόνος συνεκτικός "κρίκος" ανάμεσα στους δύο γράφους.
+Δηλαδή μπορούμε να διαπιστώσουμε άν οι γράφοι χωρίστηκαν, αρχίζοντας απο τον ένα κόμβο και ψάχνοντας τουλάχιστον ένα μόνοπάτι που θα οδηγήσει στον άλλον.
+Προφανώς αν το μονοπάτι αυτό δέν υπάρχει, τότε σημαίνει πως οι γράφοι πράγματι χωρίστηκαν.
+Η συνάρτηση \selectlanguage{english}Path search()\selectlanguage{greek} μπορεί να χρησιμοποιηθεί για την εύρεση αυτού του μονοπατιού, που επιστρέφει ανάλογη τιμή αν
+βρεί τον \selectlanguage{english}destination node\selectlanguage{greek}. Θα μας δώσει επίσης τον πίνακα με τις αποστάσεις απο τον αρχικό κομβο 
+\selectlanguage{english}(source node)\selectlanguage{greek}, που θα φανεί ιδιαίτερα χρήσιμο στο επόμενο βήμα του αλγορίθμου.\bigbreak
+
+\textbf{Αναδρομική συνάρτηση:}\bigbreak
+
+Εδώ αξίζει να σημειωθεί η δομή της συνάρτησης που χρήσιμοποιείται, η οποία αποτελείται απο μία επανάληψη μέσα στην οποία καλούνται οι συναρτήσεις για την εύρεση του
+\selectlanguage{english}cpl\selectlanguage{greek}, την αφαίρεση ενός κόμβου, τον έλεγχο συνεκτικότητας του γράφου καθώς και για την δημιουργία των δύο υπογράφων και
+την αναδρομική κλήση του εαυτού της για καθέναν απο τους υπογράφους, αν χρειαστεί. Η αναδρομή τερματίζει όταν μια συνιστώσα αποτελείται απο έναν μονάχα κόμβο.
+Αυτό φαίνεται και στον παρακάτω ψευδοκώδικα:\bigbreak
+
+\selectlanguage{english}
+\begin{lstlisting}
+	void analyseGraph()
+		if numVertices = 1	
+			return
+		
+		while 1:
+			MostUsedEdge = cpl_sp()
+			removeEdge(MostUsedEdge)
+			
+			is graph connected = pathSearch()
+	
+			if graph is not connected:
+
+				subgraphs = splitGraph()
+				analyseGraph(bigger subgraph)								
+				analyseGraph(smaller subgraph)				
+				return
+\end{lstlisting}\bigbreak\selectlanguage{greek}
+
+Για να δημιουργήσουμε τους υπογράφους, ιδιαίτερα χρήσιμος θα φανεί ο πίνακας αποστάσεων της \selectlanguage{english}pathSearch\selectlanguage{greek},
+καθώς παρέχει έναν εύκολο τρόπο να ξεχωρίσουμε τους κόμβους που θα είναι μέρος κάθε υπογράφου. Συγκεκριμένα, κάθε κόμβος που αντοιστιχεί σε θέση του πίνακα
+με απόσταση διάφορη του μηδενός, συμπεριλαμβανομένου του \selectlanguage{english}source node\selectlanguage{greek}, θα ανήκουν στον πρώτο γράφο, και τα 
+υπόλοιπα θα ανοίκουν στον 2ο γράφο.
+
 \end{document}
