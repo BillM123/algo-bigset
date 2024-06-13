@@ -9,3 +9,5 @@ format
 format.dSYM
 avg-cpl.py
 avg-cpl-cgpt.py
+algoReport.aux
+algoReport.log
