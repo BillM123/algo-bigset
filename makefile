@@ -1,18 +1,18 @@
 CC=gcc
-CFLAGS=-Wall -g
+CFLAGS=-Wall
 
 main: main.o graph-functions.o fifo.o cpl_sp.o
 	$(CC) $(CFLAGS) -fopenmp -o $@ $^
 	@echo -e "\nTo test the program, try running \033[1;34mmake \033[0;37mtest\033[0m"
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< 
+	$(CC) $(CFLAGS) -c -O3 -o $@ $< 
 graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< 
+	$(CC) $(CFLAGS) -c -O3 -o $@ $< 
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -fopenmp -o $@ $<
+	$(CC) $(CFLAGS) -c -O3 -fopenmp -o $@ $<
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -c -o $@ $< 
-format: format.c
+	$(CC) $(CFLAGS) -c -O3 -o $@ $< 
+format: dependencies/format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
 test: main edgelists/karate-formatted.edgelist edgelists/grid-formatted.edgelist edgelists/Erdos-formatted.edgelist
@@ -43,4 +43,4 @@ test3: main	edgelists/Erdos-formatted.edgelist
 exec: main
 	./main edgelists/$(EDGELIST)-formatted.edgelist
 clean:
-	@rm main main.o graph-functions.o fifo.o cpl_sp.o
+	@rm main format main.o graph-functions.o fifo.o cpl_sp.o

@@ -1,3 +1,5 @@
+//A small API for graph manipulation
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "include/datatypes.h"
@@ -103,7 +105,7 @@ void removeEdge(struct Graph* graph, int s, int d){
   free(tmpNext);
 }
 
-
+//Graph reIndexing and reOrdering
 struct Graph* reorderGraph(struct Graph* graph, int newOrder[],int numVertices) {
     struct Graph* newGraph = createAGraph(numVertices);
 

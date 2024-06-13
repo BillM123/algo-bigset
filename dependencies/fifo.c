@@ -1,7 +1,10 @@
+//A small API for fifo queue
+
 #include <stdlib.h>
 #include "include/datatypes.h"
 #include "include/prototypes.h"
 
+//Some is used from:
 //https://gist.github.com/ryankurte/61f95dc71133561ed055ff62b33585f8
 
 struct Queue* QInit(){
@@ -40,21 +43,7 @@ void QInsert(struct Queue *queue, int data){
     queue->tail = newNode;
     queue->size++;
 }
-//int QDelete(struct Queue *queue){
-//    struct QNode *curr;
-//    struct QNode *prev;
-//    int data;
-//
-//    curr = queue->head;
-//    while(curr->next != NULL){
-//        prev = curr;
-//        curr = prev->next; 
-//    }
-//    data = curr->data;
-//    free(curr);
-//    prev->next = NULL;
-//    return data;
-//}
+
 int QDelete(struct Queue *queue){
     struct QNode *tmp = queue->head->next;
 

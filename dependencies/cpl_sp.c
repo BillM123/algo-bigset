@@ -7,8 +7,8 @@
 #include "include/prototypes.h"
 #define TASK_SIZE 100
 
-// Utility function to find minimum of two integers
-int min(int x, int y) { return (x<y)? x :y; }
+//A parrelized implementation of merge sort
+//Credit: https://github.com/dreamcrash/StackOverflow-/blob/main/OpenMP/MergeSort/main.c
 
 void mergeSortAux(struct pairs *X, int n,struct pairs *tmp)
 {
@@ -49,9 +49,6 @@ void mergeSort(struct pairs *X, int n, struct pairs *tmp)
    #pragma omp taskwait
    mergeSortAux(X, n, tmp);
 }
- 
-
- 
 
 //https://www.geeksforgeeks.org/binomial-coefficient-dp-9/
 // Returns value of Binomial Coefficient C(n, k)
@@ -101,7 +98,9 @@ void nZerosPairs(struct pairs **array,int n){
     }     
 }
 
-
+/*Finds the edges involved in a shortest path with the help of the par array
+and increments the edgeArray (which contains the number of involvements in sortest paths 
+of an edge) in the right spot*/
 void countEdgesPath(struct pairs **edgeArray,struct parents *par,int S,int D){
     int curr_node = D;
     struct parents curr_parent,initialParent = par[curr_node-1];
@@ -129,6 +128,7 @@ void countEdgesPath(struct pairs **edgeArray,struct parents *par,int S,int D){
     }
 }
 
+//Find
 void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V){
     int i =0;
 
@@ -137,7 +137,10 @@ void CountTotalEdges(struct pairs **edgeArray,struct parents *par,int S,int V){
     }
 }
 
-
+/*This function does a BFS search and returns an array with all the lengths of all sortest paths
+from the source node (S), a par array with the parents of every node that took part in the sortest path.
+A parent is the neighboring node that inserted the node inside the queue a node can have multiple nodes.
+And last the function can specifically search for a node when the dest option is greater than 0*/ 
 int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, int Dest){
     int nodeNum ;
     
@@ -187,6 +190,9 @@ int pathSearch(struct Graph graph,int **dist,struct parents **par,int S,int V, i
     return 0;
 }
 
+
+/*This function finds the CPL of a graph and calculates the number of times an edge
+part of a sortest path for all edges inside the graph*/
 struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
     int *dist = malloc(V * sizeof(int));
     struct parents *par = malloc(V*sizeof(struct parents));
@@ -204,15 +210,11 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
         nZeros(&dist,i);
         sumOfSps += sum(dist,V);
 
-        CountTotalEdges(&edgeArray,par,i,V);
-        //for (int j = i+1; j <= V; j++){
-        //    countEdgesPath(&edgeArray, par, i, j);
-        //} //Commented code makes CountTotalEdges obsolete
-
-        
+        CountTotalEdges(&edgeArray,par,i,V);    
 
         struct parents *temp_prev, *temp_next ;
 
+        //Free the list of parents of all nodes
         for(int k=0; k<V; k++){
             temp_prev = par[k].nextParent;
             while(temp_prev != NULL){
@@ -222,22 +224,13 @@ struct pairs cpl_sp(struct Graph graph,int V,double *cpl){
             }
         }
     }
-
-   //clock_t start, end;
-   //double cpu_time_used;
-   //start = clock();
    struct pairs *tmp = malloc(V*V * sizeof(struct pairs));
 
-    double begin = omp_get_wtime();
     #pragma omp parallel
     {
         #pragma omp single
         mergeSort(edgeArray,V*V,tmp);
     }
-    double end = omp_get_wtime();
-    //end = clock();
-    //cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
-    printf("Time taken: %f",end-begin);
     *cpl = (double)sumOfSps / binomialCoeff(V,2);
 
     mostUsedEdge = edgeArray[0];

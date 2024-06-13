@@ -1,3 +1,5 @@
+//A function for for graph-input format
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
