@@ -26,8 +26,8 @@ NOTE2: OpenMP library is required for the program to execute.
 
 Estimated Time for graphs is:
 
-Karate: 0.006 - 0.015 sec
+-- Karate: 0.006 - 0.015 sec
 
-Grid: 2 - 3 minutes
+-- Grid: 2 - 3 minutes
 
-Erdos: 4 - 5 hours
+-- Erdos: 4 - 5 hours
