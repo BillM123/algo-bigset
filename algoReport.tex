@@ -6,7 +6,9 @@
 \usepackage[intlimits]{amsmath}
 \usepackage{commath}
 \usepackage{amssymb}
+\usepackage{graphicx}
 \setlength{\parindent}{0pt}
+
 
 \lstset{frame=tb,
   language=C,
@@ -158,7 +160,7 @@ for all nodes inside the graph
 	distances array -> distance array with zeroed the recurring cpls
 	Sum of all cpls = distances array + Sum of all cpls
 	
-	for all combinations of sources and destination nodes inside a graph
+	for all combinations th source and destination nodes inside the graph
 		countEdgesPath() fill the edge array
 	end 
 end
@@ -169,5 +171,24 @@ mergesort(edge array)
 return top elemnent in edge array
 end
 \end{lstlisting}\bigbreak
+\selectlanguage{greek}
 
+Συνεπώς το \selectlanguage{english}complexity\selectlanguage{greek} της συνάρτησης προκύπτει ως εξής:\bigbreak
+
+To \selectlanguage{english}complexity\selectlanguage{greek} της αναζήτησης είναι $Ο(V+E)$ όπου $V$ κόμβοι και $Ε$ ακμές.\bigbreak
+
+Για την συνάρτηση μηδενισμού έχουμε \selectlanguage{english}complexity\selectlanguage{greek}
+$O(V)$ όπως το ίδιο και για την συνάστηση αθροίσματος.\bigbreak
+
+Η συνάστηση επαναληπτική εκτέλεση της συνάστησης\selectlanguage{english}countEdgesPath()\selectlanguage{greek} έχει \selectlanguage{english}comlexity\selectlanguage{greek}
+$O(V*Biggest Path Length)$ καθώς εκτελείται περίπου $Ο(V)$ φορές για ένα δεδομένο πίνακα γονέων και η διάτρεξη του πίνακα γονέων έχει στην μεγαλύτερη περίπτωση μεταξύ όλων των $Ο(Biggest Path Length)$ πράξεις.\bigbreak
+
+Άρα το συνολικό \selectlanguage{english}complexity\selectlanguage{greek} εφόσον γίνονται $V$ επαναλήψης είναι 
+
+$Ο(V) * [O(V+E)+O(V)+O(V)+Ο(V*Biggest Path Length)] \ = \ O(V^2 + VE)$\bigbreak
+
+Eφόσον έχουμε εκτελέσει την συνάρτηση \selectlanguage{english}cpl sp\selectlanguage{greek} τότε κάνουμε αφαίρεση της ακμής μεταξύ των δύο κόμβων αφαιρόντας τις μεταξύ ακμές από τις αντίστοιχες λίστες γειτνίασης τους.\bigbreak
+
+Έπειτα για να ελένξουμε για συνοχή του γράφου εκτελούμε την \selectlanguage{english}pathSearch\selectlanguage{greek} με στόχο να βρούμε το κόμβο με τον οποίο κόπηκε η απευθείας σύνδεση.
+Εάν τον βρούμε θα επιστραφεί επιτυχία από την συνάρτηση και θα σημαίνει οτι ο γράφος παραμένει συνεκτικός αλλίως σε περίπτωση αποτυχίας θα σημαίνει οτι ο γράφος χωρίστηκε.
 \end{document}
