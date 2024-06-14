@@ -221,22 +221,22 @@ Eφόσον έχουμε εκτελέσει την συνάρτηση \selectlan
 
 \selectlanguage{english}
 \begin{lstlisting}
-	void analyseGraph()
-		if numVertices = 1	
-			return
-		
-		while 1:
-			MostUsedEdge = cpl_sp()
-			removeEdge(MostUsedEdge)
-			
-			is graph connected = pathSearch()
+void analyseGraph():
+	if numVertices = 1	
+		return
 	
-			if graph is not connected:
+	while 1:
+		MostUsedEdge = cpl_sp()
+		removeEdge(MostUsedEdge)
+		
+		is graph connected = pathSearch()
 
-				subgraphs = splitGraph()
-				analyseGraph(bigger subgraph)								
-				analyseGraph(smaller subgraph)				
-				return
+		if graph is not connected:
+		
+			subgraphs = splitGraph()
+			analyseGraph(bigger subgraph)								
+			analyseGraph(smaller subgraph)				
+			return
 \end{lstlisting}\bigbreak\selectlanguage{greek}
 
 Για να δημιουργήσουμε τους υπογράφους, ιδιαίτερα χρήσιμος θα φανεί ο πίνακας αποστάσεων της \selectlanguage{english}pathSearch\selectlanguage{greek},
@@ -252,7 +252,7 @@ Eφόσον έχουμε εκτελέσει την συνάρτηση \selectlan
 με τη καινούρια. \bigbreak
 
 \selectlanguage{english}\begin{lstlisting}
-struct GraphPair splitGraph()
+struct GraphPair splitGraph():
 
 	new-order1 = all vertices for which dist != 0
 	new-order1 = all vertices for which dist == 0
@@ -264,8 +264,8 @@ struct GraphPair splitGraph()
 
 \end{lstlisting}
 \begin{lstlisting}
-struct Graph* reorderGraph() 
-	newGraph = createAGraph();
+struct Graph* reorderGraph():
+	newGraph = create Graph()
 
 	for i in numVertices:
 
