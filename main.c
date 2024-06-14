@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     int numVertices = 0;
     int num1 = 0, num2 = 0;
     omp_set_dynamic(0);
-    omp_set_num_threads(10);
+    omp_set_num_threads(12);
 
     FILE *file = fopen(argv[1], "r");
     if (file == NULL) {
@@ -92,11 +92,11 @@ void analyseGraph(struct Graph *graph){
             free(par);
             freeGraph(graph);
 
-            printf("\nThe bigger graph is running...\n");
+            printf("\nBigger graph size: %d\n", graphPair.biggerGraph->numVertices);
             analyseGraph(graphPair.biggerGraph);
             printf("\nThe bigger graph finished running.\n");
 
-            printf("\nThe smaller graph is running...\n");
+            printf("\nSmaller graph size: %d\n", graphPair.smallerGraph->numVertices);
             analyseGraph(graphPair.smallerGraph);
             printf("\nThe smaller graph finished running.\n");
             return;
