@@ -2,16 +2,16 @@ CC=gcc
 CFLAGS=-Wall -g
 
 main: main.o graph-functions.o fifo.o cpl_sp.o
-	$(CC) $(CFLAGS) -Ofast -fopenmp -o $@ $^
+	$(CC) $(CFLAGS) -O3 -fopenmp -o $@ $^
 	@echo -e "\nTo test the program, try running \033[1;34mmake \033[0;37mtest\033[0m"
 main.o: main.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -Ofast -c -o $@ $< 
+	$(CC) $(CFLAGS) -O3 -c -o $@ $< 
 graph-functions.o: dependencies/graph-functions.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -Ofast -c -o $@ $< 
+	$(CC) $(CFLAGS) -O3 -c -o $@ $< 
 cpl_sp.o: dependencies/cpl_sp.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -Ofast -c -fopenmp -o $@ $<
+	$(CC) $(CFLAGS) -O3 -c -fopenmp -o $@ $<
 fifo.o: dependencies/fifo.c dependencies/include/datatypes.h dependencies/include/prototypes.h
-	$(CC) $(CFLAGS) -Ofast -c -o $@ $< 
+	$(CC) $(CFLAGS) -O3 -c -o $@ $< 
 format: dependencies/format.c
 	$(CC) $(CFLAGS) -o $@ $<
 
