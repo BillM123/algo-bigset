@@ -12,6 +12,18 @@ fclose(fileIDErdos);
 fclose(fileIDKarate);
 fclose(fileIDGrid);
 
+fileIDErdos = fopen("output/Erdos-Sizes.out","r");
+fileIDKarate = fopen("output/karate-Sizes.out","r");
+fileIDGrid = fopen("output/grid-Sizes.out","r");
+
+sizesErdos = fscanf(fileIDErdos,"%lf\n");
+sizesKarate = fscanf(fileIDKarate,"%lf\n");
+sizesGrid = fscanf(fileIDGrid,"%lf\n");
+
+fclose(fileIDErdos);
+fclose(fileIDKarate);
+fclose(fileIDGrid);
+
 medianCPLErdos = median(cplsErdos);
 medianCPLKarate = median(cplsKarate);
 medianCPLGrid = median(cplsGrid);
@@ -48,3 +60,18 @@ figure("Name","CPL evolution during execution time for Grid Graph");
 bar(cplsGrid);
 xlabel("Sub Graph");
 ylabel("CPL for Sub Graph");
+
+figure("Name","Bigger graph plot after a split for Erdos Graph");
+bar(sizesErdos);
+xlabel("Bigger Graph every split");
+ylabel("Size in nodes");
+
+figure("Name","Bigger graph plot after a split for Karate Graph");
+bar(sizesKarate);
+xlabel("Bigger Graph every split");
+ylabel("Size in nodes");
+
+figure("Name","Bigger graph plot after a split for Grid Graph");
+bar(sizesGrid);
+xlabel("Bigger Graph every split");
+ylabel("Size in nodes");

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -g -Ofast
+CFLAGS=-Wall -Ofast
 
 main: main.o graph-functions.o fifo.o cpl_sp.o
 	$(CC) $(CFLAGS) -fopenmp -o $@ $^

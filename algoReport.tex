@@ -7,6 +7,7 @@
 \usepackage{commath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\graphicspath{ {./plots/} }
 \setlength{\parindent}{0pt}
 
 
@@ -80,7 +81,8 @@ end
 \end{lstlisting}\bigbreak
 \selectlanguage{greek}
 
-Για να βρούμε το \selectlanguage{english}CPL\selectlanguage{greek} εκτελούμε κατα επανάληψη την προηγούμενη συνάρτηση για όλους τους κόμβους και μηδενίζουμε τις επαναλαμβανόμενες αποστάσεις που προκύπτουν στον πίνακα αποστάσεων που μας επιστρέφει η συνάρτηση και έπειτα προσθέτουμε στο συνολικό άθροισμα, το άθροισμα των \selectlanguage{english}CPL\selectlanguage{greek} του πίνακα αυτού.\pagebreak
+Για να βρούμε το \selectlanguage{english}CPL\selectlanguage{greek} εκτελούμε κατα επανάληψη την προηγούμενη συνάρτηση για όλους τους κόμβους και μηδενίζουμε τις επαναλαμβανόμενες αποστάσεις που προκύπτουν στον πίνακα αποστάσεων που μας επιστρέφει η συνάρτηση και έπειτα προσθέτουμε στο συνολικό άθροισμα, το άθροισμα των αποστάσεων του πίνακα αυτού.\bigbreak
+Τέλος για να βρούμε το συνολικό \selectlanguage{english}CPL\selectlanguage{greek} παίρνουμε το άθροισμα στο τέλος της επανάληψης και το διαιρούμε με το πλήθος των ζευγαριών κόμβων.
 
 \selectlanguage{english}
 \begin{lstlisting}
@@ -88,13 +90,15 @@ Sum of all cpls = 0;
 
 for all nodes inside the graph
 	distances array = execute pathSearch
-	distances array -> distance array with zeroed the recurring cpls
+	distances array -> distance array with zeroed the recurring distances
 	Sum of all cpls = distances array + Sum of all cpls
 end
 
 cpl = Sum of all cpls / binomial coefficient(number of nodes,2)
-\end{lstlisting}\bigbreak
+\end{lstlisting}\pagebreak
 \selectlanguage{greek}
+
+\textbf{Υπολογισμός \selectlanguage{english}SPs\selectlanguage{greek} που μεσολαβεί από μια ακμή $e$}\bigbreak
 
 Για να υπολογίσουμε τον συνολικό αριθμό των συντομοτέρων μονοπατιών \selectlanguage{english}(SPs)\selectlanguage{greek} μεταξύ κάθε δυνατού ζεύγους κόμβων $j$ και $k$ στα οποία μεσολαβεί κάθε ακμή $e$ του γραφήματος.Θα χρησιμοποιήσουμε τον πίνακα γονέων που μας επιστρέφει η συνάρτηση
 \selectlanguage{english}pathSearch()\selectlanguage{greek}.\bigbreak
@@ -144,7 +148,7 @@ Sum of all cpls = 0;
 
 for all nodes inside the graph
 	distances array = execute pathSearch
-	distances array -> distance array with zeroed the recurring cpls
+	distances array -> distance array with zeroed the recurring distances
 	Sum of all cpls = distances array + Sum of all cpls
 	
 	for all combinations of sources and destination nodes inside a graph
@@ -165,7 +169,7 @@ Sum of all cpls = 0;
 
 for all nodes inside the graph
 	distances array = execute pathSearch
-	distances array -> distance array with zeroed the recurring cpls
+	distances array -> distance array with zeroed the recurring distances
 	Sum of all cpls = distances array + Sum of all cpls
 	
 	for all combinations th source and destination nodes inside the graph
@@ -287,4 +291,15 @@ struct Graph* reorderGraph():
 Συνολικά η περιπλοκότητα μίας επανάληψης της αναδρομικής συνάρτησησς είναι ίση με το σύνολο των παραπάνω βημάτων δηλαδή με
 $O(V^2 + VE) + O(V) + O(V + E) + O(E) \ = \ O(V^2 + VE)$ Επειδή όμως η επανάληψη θα εκτελεστεί για κάθε ακμή, δηλαδή $E$ φορές,
 η συνολική περιπλοκότητα του αλγορίθμου θα είναι ίση με $O(ΕV^2 + VE^2)$, η καλύτερα $O(VE^2)$\bigbreak
+
+\textbf{Τα \selectlanguage{english}plots\selectlanguage{greek}}\bigbreak
+
+\includegraphics[width=\textwidth]{Figure1.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure2.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure3.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure4.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure5.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure6.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure7.png}\bigbreak
+\includegraphics[width=\textwidth]{Figure8.png}\bigbreak
 \end{document}
