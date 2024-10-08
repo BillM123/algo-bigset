@@ -1,3 +1,5 @@
+Disclaimer: this is a simple project created for an university assignment. This means that it is not actively maintained, and is propably not optimal for any real use case.
+
 # algo-bigset
 
 To run the project use the command 'make test' inside the directory
